@@ -4,13 +4,17 @@ import { useRouter } from 'next/router';
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
   const router = useRouter();
 
+  // You can store a hardcoded password here or fetch it from a database or API later.
+  const correctPassword = 'yourSecurePassword123';
+
   const handleLogin = () => {
-    if (email || phone) {
+    if ((email || phone) && password === correctPassword) {
       router.push('/ride');
     } else {
-      alert('Please enter your email or phone number');
+      alert('Please check your email/phone and password');
     }
   };
 
@@ -27,7 +31,7 @@ export default function LoginPage() {
       padding: '2rem',
     }}>
       <h1 style={{ fontSize: '3rem', marginBottom: '1rem' }}>
-        Welcome to <span style={{ color: '#00f2fe' }}>Shavani Rides</span>
+        Welcome to <span style={{ color: '#00f2fe' }}>ZVISHAVANE RIDES</span>
       </h1>
       <p style={{ fontSize: '1.2rem', marginBottom: '2rem', textAlign: 'center' }}>
         Fast, Smart, and Affordable Transport in Zvishavane
@@ -55,6 +59,13 @@ export default function LoginPage() {
           placeholder="Enter Phone Number"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
+          style={inputStyle}
+        />
+        <input
+          type="password"
+          placeholder="Enter Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           style={inputStyle}
         />
         <button onClick={handleLogin} style={buttonStyle}>
