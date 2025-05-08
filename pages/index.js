@@ -2,16 +2,15 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
+  const [emailOrPhone, setEmailOrPhone] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
 
-  // You can store a hardcoded password here or fetch it from a database or API later.
-  const correctPassword = 'yourSecurePassword123';
+  // Hardcoded password for validation
+  const correctPassword = 'shabhani';
 
   const handleLogin = () => {
-    if ((email || phone) && password === correctPassword) {
+    if ((emailOrPhone) && password === correctPassword) {
       router.push('/ride');
     } else {
       alert('Please check your email/phone and password');
@@ -38,27 +37,20 @@ export default function LoginPage() {
       </p>
 
       <div style={{
-        backgroundColor: '#ffffff15',
+        backgroundColor: '#ffffff25', // Slight glowing blue effect
         padding: '2rem',
         borderRadius: '12px',
         width: '100%',
         maxWidth: '400px',
         backdropFilter: 'blur(10px)',
-        boxShadow: '0 4px 30px rgba(0, 0, 0, 0.2)'
+        boxShadow: '0 4px 30px rgba(0, 0, 0, 0.2)',
+        animation: 'glowEffect 1.5s ease-in-out infinite', // Glowing animation
       }}>
         <input
-          type="email"
-          placeholder="Enter Email Address"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          style={inputStyle}
-        />
-        <p style={{ textAlign: 'center', margin: '1rem 0' }}>OR</p>
-        <input
-          type="tel"
-          placeholder="Enter Phone Number"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
+          type="text"
+          placeholder="Enter Email or Phone Number"
+          value={emailOrPhone}
+          onChange={(e) => setEmailOrPhone(e.target.value)}
           style={inputStyle}
         />
         <input
@@ -78,7 +70,7 @@ export default function LoginPage() {
         fontSize: '0.9rem',
         color: '#ccc'
       }}>
-        &copy; {new Date().getFullYear()} Shavani Rides | All rights reserved
+        &copy; {new Date().getFullYear()} Zvishavane Rides 2025| All rights reserved
       </footer>
     </div>
   );
@@ -104,3 +96,18 @@ const buttonStyle = {
   fontSize: '1rem',
   cursor: 'pointer',
 };
+
+// Glowing effect CSS (added in the global styles or inline in the component)
+const glowEffect = `
+@keyframes glowEffect {
+  0% {
+    box-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(0, 242, 254, 0.7);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
+  }
+}
+`;
