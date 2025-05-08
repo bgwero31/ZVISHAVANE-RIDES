@@ -1,8 +1,11 @@
 'use client';
-import Link from 'next/link';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Home() {
+  const [pickup, setPickup] = useState('');
+  const [dropoff, setDropoff] = useState('');
+  const [offer, setOffer] = useState('');
+
   useEffect(() => {
     const hour = new Date().getHours();
     let greeting = 'Welcome to ZVISHAVANE RIDES. Let’s get your ride moving.';
@@ -18,6 +21,22 @@ export default function Home() {
     utterance.volume = 1;
     speechSynthesis.speak(utterance);
   }, []);
+
+  const speak = (text) => {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'en-US';
+    speechSynthesis.speak(utterance);
+  };
+
+  const handleConfirm = () => {
+    if (pickup && dropoff && offer) {
+      const message = `Your ride from ${pickup} to ${dropoff} has been booked for ${offer} dollars.`;
+      speak(message);
+      alert(message);
+    } else {
+      speak("Please enter all details to book your ride.");
+    }
+  };
 
   return (
     <div style={{
@@ -62,32 +81,29 @@ export default function Home() {
             type="text"
             placeholder="Pickup Location"
             style={inputStyle}
+            value={pickup}
+            onChange={(e) => setPickup(e.target.value)}
           />
           <input
             type="text"
             placeholder="Dropoff Location"
             style={inputStyle}
+            value={dropoff}
+            onChange={(e) => setDropoff(e.target.value)}
           />
           <input
             type="number"
             placeholder="Offer Price"
             style={inputStyle}
+            value={offer}
+            onChange={(e) => setOffer(e.target.value)}
           />
           <button
+            onClick={handleConfirm}
             style={buttonStyle}
           >
-            Request Ride
+            Confirm Ride
           </button>
-        </div>
-
-        {/* Navigation */}
-        <div style={{ marginTop: '2rem' }}>
-          <Link href="/login">
-            <button style={{ ...navButtonStyle }}>Login</button>
-          </Link>
-          <Link href="/signup">
-            <button style={{ ...navButtonStyle, marginLeft: '1rem' }}>Sign Up</button>
-          </Link>
         </div>
       </div>
 
@@ -142,14 +158,4 @@ const buttonStyle = {
   fontWeight: 'bold',
   cursor: 'pointer',
   marginTop: '1rem'
-};
-
-const navButtonStyle = {
-  backgroundColor: '#0077ff',
-  color: '#fff',
-  padding: '0.6rem 1.2rem',
-  border: 'none',
-  borderRadius: '6px',
-  fontSize: '1rem',
-  cursor: 'pointer'
 };
