@@ -1,8 +1,0 @@
-export default function Login() {
-  return (
-    <div style={{ padding: '2rem', fontFamily: 'Arial, sans-serif' }}>
-      <h1>Login Page</h1>
-      <p>This is your login page. More design coming soon!</p>
-    </div>
-  );
-}
