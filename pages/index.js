@@ -70,7 +70,7 @@ export default function LoginPage() {
         fontSize: '0.9rem',
         color: '#ccc'
       }}>
-        &copy; {new Date().getFullYear()} Zvishavane Rides 2025| All rights reserved
+        &copy; {new Date().getFullYear()} Zvishavane Rides| All rights reserved
       </footer>
     </div>
   );
