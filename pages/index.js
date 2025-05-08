@@ -1,79 +1,126 @@
-import { useState } from 'react';
-import { useRouter } from 'next/router';
+'use client';
+import Link from 'next/link';
+import { useEffect } from 'react';
 
-export default function LoginPage() {
-  const [emailOrPhone, setEmailOrPhone] = useState('');
-  const [password, setPassword] = useState('');
-  const router = useRouter();
+export default function Home() {
+  useEffect(() => {
+    const hour = new Date().getHours();
+    let greeting = 'Welcome to ZVISHAVANE RIDES. Let’s get your ride moving.';
 
-  // Hardcoded password for validation
-  const correctPassword = 'shabhani';
+    if (hour < 12) greeting = 'Good morning. Welcome to Zvish Rides.';
+    else if (hour < 17) greeting = 'Good afternoon. Welcome to Zvish Rides.';
+    else greeting = 'Good evening. Welcome to Zvish Rides.';
 
-  const handleLogin = () => {
-    if ((emailOrPhone) && password === correctPassword) {
-      router.push('/ride');
-    } else {
-      alert('Please check your email/phone and password');
-    }
-  };
+    const utterance = new SpeechSynthesisUtterance(greeting + ' Where do you want to go?');
+    utterance.lang = 'en-US';
+    utterance.pitch = 1.2;
+    utterance.rate = 1;
+    utterance.volume = 1;
+    speechSynthesis.speak(utterance);
+  }, []);
 
   return (
     <div style={{
-      background: 'linear-gradient(to right, #0f2027, #203a43, #2c5364)',
+      animation: 'fadeIn 2s ease-out',
+      background: 'linear-gradient(135deg, #004e92, #000428)',
+      backgroundSize: '400% 400%',
       minHeight: '100vh',
       display: 'flex',
       flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
+      justifyContent: 'space-between',
+      padding: '2rem',
       color: '#fff',
       fontFamily: 'Segoe UI, sans-serif',
-      padding: '2rem',
+      animationName: 'gradientFlow',
+      animationDuration: '15s',
+      animationIterationCount: 'infinite',
+      animationTimingFunction: 'ease-in-out',
     }}>
-      <h1 style={{ fontSize: '3rem', marginBottom: '1rem' }}>
-        Welcome to <span style={{ color: '#00f2fe' }}>ZVISHAVANE RIDES</span>
-      </h1>
-      <p style={{ fontSize: '1.2rem', marginBottom: '2rem', textAlign: 'center' }}>
-        Fast, Smart, and Affordable Transport in Zvishavane
-      </p>
-
-      <div style={{
-        backgroundColor: '#ffffff25', // Slight glowing blue effect
-        padding: '2rem',
-        borderRadius: '12px',
-        width: '100%',
-        maxWidth: '400px',
-        backdropFilter: 'blur(10px)',
-        boxShadow: '0 4px 30px rgba(0, 0, 0, 0.2)',
-        animation: 'glowEffect 1.5s ease-in-out infinite', // Glowing animation
-      }}>
-        <input
-          type="text"
-          placeholder="Enter Email or Phone Number"
-          value={emailOrPhone}
-          onChange={(e) => setEmailOrPhone(e.target.value)}
-          style={inputStyle}
-        />
-        <input
-          type="password"
-          placeholder="Enter Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          style={inputStyle}
-        />
-        <button onClick={handleLogin} style={buttonStyle}>
-          Continue
-        </button>
+      {/* Clock */}
+      <div style={{ position: 'absolute', top: '1rem', right: '2rem', fontSize: '1rem', color: '#ddd' }}>
+        <Clock />
       </div>
 
+      {/* Main Section */}
+      <div>
+        <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>
+          Zvishavane Rides
+        </h1>
+        <p style={{ fontSize: '1.2rem', marginBottom: '2rem' }}>
+          Move around Zvishavane faster, cheaper and smarter.
+        </p>
+
+        <div style={{
+          padding: '1.5rem',
+          borderRadius: '12px',
+          maxWidth: '400px',
+          background: 'rgba(255, 255, 255, 0.05)',
+          backdropFilter: 'blur(10px)',
+          border: '1px solid rgba(255, 255, 255, 0.1)'
+        }}>
+          <input
+            type="text"
+            placeholder="Pickup Location"
+            style={inputStyle}
+          />
+          <input
+            type="text"
+            placeholder="Dropoff Location"
+            style={inputStyle}
+          />
+          <input
+            type="number"
+            placeholder="Offer Price"
+            style={inputStyle}
+          />
+          <button
+            style={buttonStyle}
+          >
+            Request Ride
+          </button>
+        </div>
+
+        {/* Navigation */}
+        <div style={{ marginTop: '2rem' }}>
+          <Link href="/login">
+            <button style={{ ...navButtonStyle }}>Login</button>
+          </Link>
+          <Link href="/signup">
+            <button style={{ ...navButtonStyle, marginLeft: '1rem' }}>Sign Up</button>
+          </Link>
+        </div>
+      </div>
+
+      {/* Footer */}
       <footer style={{
         marginTop: '3rem',
-        fontSize: '0.9rem',
-        color: '#ccc'
+        textAlign: 'center',
+        padding: '1rem',
+        color: '#ccc',
+        fontSize: '0.9rem'
       }}>
-        &copy; {new Date().getFullYear()} Zvishavane Rides| All rights reserved
+        &copy; {new Date().getFullYear()} Zvishavane Rides. All rights reserved.
       </footer>
+
+      <style jsx>{`
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(30px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes gradientFlow {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+      `}</style>
     </div>
   );
+}
+
+function Clock() {
+  const now = new Date();
+  return <>{now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</>;
 }
 
 const inputStyle = {
@@ -82,32 +129,27 @@ const inputStyle = {
   marginBottom: '1rem',
   borderRadius: '8px',
   border: 'none',
-  fontSize: '1rem',
+  fontSize: '1rem'
 };
 
 const buttonStyle = {
-  backgroundColor: '#00f2fe',
-  color: '#000',
+  backgroundColor: '#fff',
+  color: '#004e92',
   padding: '0.8rem',
   borderRadius: '8px',
   border: 'none',
   width: '100%',
   fontWeight: 'bold',
-  fontSize: '1rem',
   cursor: 'pointer',
+  marginTop: '1rem'
 };
 
-// Glowing effect CSS (added in the global styles or inline in the component)
-const glowEffect = `
-@keyframes glowEffect {
-  0% {
-    box-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
-  }
-  50% {
-    box-shadow: 0 0 20px rgba(0, 242, 254, 0.7);
-  }
-  100% {
-    box-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
-  }
-}
-`;
+const navButtonStyle = {
+  backgroundColor: '#0077ff',
+  color: '#fff',
+  padding: '0.6rem 1.2rem',
+  border: 'none',
+  borderRadius: '6px',
+  fontSize: '1rem',
+  cursor: 'pointer'
+};
