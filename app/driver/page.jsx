@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+'use client';
+import { useEffect, useState } from 'react';
 
 export default function DriverPage() {
   const [rideInfo, setRideInfo] = useState(null);
@@ -19,8 +20,8 @@ export default function DriverPage() {
         };
         setRideInfo(info);
 
-        const msg = `New ride request from ${info.name}. Pickup at ${info.pickup}, dropoff at ${info.dropoff}. Offer is ${info.price} dollars.`;
         if ('speechSynthesis' in window) {
+          const msg = `New ride request from ${info.name}. Pickup at ${info.pickup}, dropoff at ${info.dropoff}. Offer is ${info.price} dollars.`;
           const utter = new SpeechSynthesisUtterance(msg);
           utter.lang = 'en-US';
           window.speechSynthesis.speak(utter);
