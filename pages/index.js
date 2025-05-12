@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 export default function LoginPage() {
   const [emailOrPhone, setEmailOrPhone] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
 
-  // Hardcoded password for validation
   const correctPassword = 'shabhani';
 
   const handleLogin = () => {
@@ -37,14 +37,14 @@ export default function LoginPage() {
       </p>
 
       <div style={{
-        backgroundColor: '#ffffff25', // Slight glowing blue effect
+        backgroundColor: '#ffffff25',
         padding: '2rem',
         borderRadius: '12px',
         width: '100%',
         maxWidth: '400px',
         backdropFilter: 'blur(10px)',
         boxShadow: '0 4px 30px rgba(0, 0, 0, 0.2)',
-        animation: 'glowEffect 1.5s ease-in-out infinite', // Glowing animation
+        animation: 'glowEffect 1.5s ease-in-out infinite',
       }}>
         <input
           type="text"
@@ -63,6 +63,12 @@ export default function LoginPage() {
         <button onClick={handleLogin} style={buttonStyle}>
           Continue
         </button>
+
+        <Link href="/driver" style={{ textDecoration: 'none' }}>
+          <button style={{ ...buttonStyle, marginTop: '1rem', backgroundColor: '#ffcc00' }}>
+            Driver Page
+          </button>
+        </Link>
       </div>
 
       <footer style={{
@@ -96,18 +102,3 @@ const buttonStyle = {
   fontSize: '1rem',
   cursor: 'pointer',
 };
-
-// Glowing effect CSS (added in the global styles or inline in the component)
-const glowEffect = `
-@keyframes glowEffect {
-  0% {
-    box-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
-  }
-  50% {
-    box-shadow: 0 0 20px rgba(0, 242, 254, 0.7);
-  }
-  100% {
-    box-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
-  }
-}
-`;
