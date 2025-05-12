@@ -11,7 +11,26 @@ export default function RideConfirmed() {
   const name = searchParams.get('name');
 
   const [isConfirmed, setIsConfirmed] = useState(false);
+  const [driver, setDriver] = useState(null); // Placeholder for Firebase
 
+  useEffect(() => {
+    // Simulate driver confirmation after 5 seconds
+    const timer = setTimeout(() => {
+      setIsConfirmed(true);
+
+      // Placeholder data for driver – to be replaced with Firebase data
+      setDriver({
+        name: 'Driver Name',
+        carType: 'Car Type',
+        plateNumber: 'Plate Number',
+        estimatedArrival: '4 minutes',
+      });
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Add keyframe animations
   useEffect(() => {
     const style = document.createElement('style');
     style.innerHTML = `
@@ -26,15 +45,7 @@ export default function RideConfirmed() {
       }
     `;
     document.head.appendChild(style);
-
-    const timer = setTimeout(() => {
-      setIsConfirmed(true);
-    }, 5000);
-
-    return () => {
-      document.head.removeChild(style);
-      clearTimeout(timer);
-    };
+    return () => document.head.removeChild(style);
   }, []);
 
   return (
@@ -51,17 +62,19 @@ export default function RideConfirmed() {
         )}
       </div>
 
-      {isConfirmed && (
+      {isConfirmed && driver && (
         <div style={driverInfo}>
-          <p>Driver: <strong>Lesley Gombedza</strong></p>
-          <p>Plate Number: <strong>ADP 7816</strong></p>
-          <p>Estimated Arrival: <strong>4 minutes</strong></p>
+          <p>Driver: <strong>{driver.name}</strong></p>
+          <p>Car Type: <strong>{driver.carType}</strong></p>
+          <p>Plate Number: <strong>{driver.plateNumber}</strong></p>
+          <p>Estimated Arrival: <strong>{driver.estimatedArrival}</strong></p>
         </div>
       )}
     </div>
   );
 }
 
+// Styles
 const containerStyle = {
   padding: '2rem',
   color: '#fff',
