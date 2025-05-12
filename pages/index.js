@@ -20,9 +20,14 @@ export default function LoginPage() {
   return (
     <div
       style={{
-        backgroundImage: 'url("https://img.freepik.com/free-vector/flat-transport-illustration_23-2148152190.jpg")',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
+        backgroundImage: `
+          url('https://img.freepik.com/free-vector/flat-transport-illustration_23-2148152190.jpg'),
+          url('https://img.freepik.com/free-vector/city-transport-horizontal-banners_1308-70214.jpg'),
+          url('https://static.vecteezy.com/system/resources/previews/019/041/207/non_2x/transportation-icons-set-free-vector.jpg')
+        `,
+        backgroundRepeat: 'no-repeat, no-repeat, no-repeat',
+        backgroundPosition: 'top left, center, bottom right',
+        backgroundSize: 'cover, contain, contain',
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
