@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 
 export default function Home() {
+  const [name, setName] = useState('');
   const [pickup, setPickup] = useState('');
   const [dropoff, setDropoff] = useState('');
   const [offer, setOffer] = useState('');
@@ -30,13 +31,20 @@ export default function Home() {
   };
 
   const handleConfirm = () => {
-    if (pickup && dropoff && offer) {
-      const message = `Your ride from ${pickup} to ${dropoff} has been booked for ${offer} dollars.`;
+    if (name && pickup && dropoff && offer) {
+      const message = `${name}, your ride from ${pickup} to ${dropoff} has been booked for ${offer} dollars.`;
       speak(message);
-      alert(message);
-      setRideRequested(true); // show success message
+
+      // Save to localStorage
+      localStorage.setItem('customer_name', name);
+      localStorage.setItem('pickup_location', pickup);
+      localStorage.setItem('dropoff_location', dropoff);
+      localStorage.setItem('offer_price', offer);
+
+      // Redirect to confirmation page
+      window.location.href = '/ride-confirmed';
     } else {
-      speak("Please enter all details to book your ride.");
+      speak("Please enter your name, pickup, dropoff, and offer to book your ride.");
     }
   };
 
@@ -81,6 +89,13 @@ export default function Home() {
         }}>
           {!rideRequested ? (
             <>
+              <input
+                type="text"
+                placeholder="Your Name"
+                style={inputStyle}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
               <input
                 type="text"
                 placeholder="Pickup Location"
