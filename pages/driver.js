@@ -1,64 +1,112 @@
 'use client';
+
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 
-export default function DriverPage() {
-  const [rideInfo, setRideInfo] = useState(null);
+export default function DriverRequestPage() {
+  const searchParams = useSearchParams();
+  const name = searchParams.get('name');
+  const pickup = searchParams.get('pickup');
+  const dropoff = searchParams.get('dropoff');
+  const offer = searchParams.get('offer');
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const name = localStorage.getItem('customer_name');
-      const pickup = localStorage.getItem('pickup_location');
-      const dropoff = localStorage.getItem('dropoff_location');
-      const price = localStorage.getItem('offer_price');
+  const [decision, setDecision] = useState(null); // null, 'accepted', or 'declined'
 
-      if (name || pickup || dropoff || price) {
-        const info = {
-          name: name || 'Unknown',
-          pickup: pickup || 'Not set',
-          dropoff: dropoff || 'Not set',
-          price: price || 'Not set',
-        };
-        setRideInfo(info);
+  const handleAccept = () => {
+    setDecision('accepted');
+    // TODO: Update Firebase when accepting
+  };
 
-        if ('speechSynthesis' in window) {
-          const msg = `New ride request from ${info.name}. Pickup at ${info.pickup}, dropoff at ${info.dropoff}. Offer is ${info.price} dollars.`;
-          const utter = new SpeechSynthesisUtterance(msg);
-          utter.lang = 'en-US';
-          window.speechSynthesis.speak(utter);
-        }
-      }
-    }
-  }, []);
+  const handleDecline = () => {
+    setDecision('declined');
+    // TODO: Update Firebase when declining
+  };
 
   return (
     <div style={containerStyle}>
-      <h1 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Driver Ride Dashboard</h1>
-      {rideInfo ? (
-        <div style={infoBox}>
-          <p><strong>Name:</strong> {rideInfo.name}</p>
-          <p><strong>Pickup:</strong> {rideInfo.pickup}</p>
-          <p><strong>Dropoff:</strong> {rideInfo.dropoff}</p>
-          <p><strong>Price:</strong> ${rideInfo.price}</p>
-        </div>
-      ) : (
-        <p>No ride info received yet.</p>
-      )}
+      <h1 style={titleStyle}>New Ride Request</h1>
+      <div style={requestBox}>
+        <p style={infoText}><b>Rider:</b> {name}</p>
+        <p style={infoText}><b>Pickup:</b> {pickup}</p>
+        <p style={infoText}><b>Drop-off:</b> {dropoff}</p>
+        <p style={infoText}><b>Offer:</b> ${offer}</p>
+
+        {decision === null && (
+          <div style={buttonRow}>
+            <button onClick={handleDecline} style={declineButton}>Decline</button>
+            <button onClick={handleAccept} style={acceptButton}>Accept</button>
+          </div>
+        )}
+
+        {decision === 'accepted' && (
+          <p style={confirmationText}>You have accepted the ride. Syncing with rider...</p>
+        )}
+        {decision === 'declined' && (
+          <p style={{ color: 'red', fontSize: '0.85rem' }}>You have declined this ride.</p>
+        )}
+      </div>
     </div>
   );
 }
 
+// Styles
 const containerStyle = {
+  padding: '1rem',
+  background: 'linear-gradient(135deg, #000428, #004e92)',
   minHeight: '100vh',
-  background: 'linear-gradient(135deg, #004e92, #000428)',
   color: '#fff',
-  padding: '2rem',
   fontFamily: 'Segoe UI, sans-serif',
 };
 
-const infoBox = {
-  background: 'rgba(255, 255, 255, 0.08)',
-  padding: '1.5rem',
+const titleStyle = {
+  fontSize: '1.4rem',
+  marginBottom: '1rem',
+  fontWeight: '600',
+  textAlign: 'center',
+};
+
+const requestBox = {
+  border: '1px solid #ccc',
   borderRadius: '10px',
-  maxWidth: '400px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  padding: '1rem',
+  background: '#002f6c',
+};
+
+const infoText = {
+  fontSize: '0.9rem',
+  margin: '0.3rem 0',
+};
+
+const buttonRow = {
+  marginTop: '1rem',
+  display: 'flex',
+  justifyContent: 'space-between',
+  gap: '1rem',
+};
+
+const acceptButton = {
+  flex: 1,
+  padding: '0.6rem 1rem',
+  fontSize: '0.85rem',
+  borderRadius: '6px',
+  backgroundColor: '#28a745',
+  color: '#fff',
+  border: 'none',
+};
+
+const declineButton = {
+  flex: 1,
+  padding: '0.6rem 1rem',
+  fontSize: '0.85rem',
+  borderRadius: '6px',
+  backgroundColor: '#dc3545',
+  color: '#fff',
+  border: 'none',
+};
+
+const confirmationText = {
+  marginTop: '1rem',
+  fontSize: '0.95rem',
+  fontWeight: 'bold',
+  color: '#00c851',
 };
