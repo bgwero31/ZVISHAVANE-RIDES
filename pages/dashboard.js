@@ -10,7 +10,7 @@ export default function Dashboard() {
 
   return (
     <div style={container}>
-      <h1 style={title}>Welcome to ZVISHAVANE RIDES</h1>
+      <h1 style={title}>Welcome to B.JAY RIDES</h1>
       <div style={grid}>
         <div style={gridItem} onClick={() => handleNavigate('/cars')}>
           <img src="https://img.icons8.com/ios-filled/100/car--v1.png" style={icon} alt="Cars" />
@@ -21,7 +21,7 @@ export default function Dashboard() {
           <p>Buses</p>
         </div>
         <div style={gridItem} onClick={() => handleNavigate('/parcels')}>
-          <img src="https://img.icons8.com/ios-filled/100/parcel.png" style={icon} alt="Parcels" />
+          <img src="https://img.icons8.com/ios-filled/100/shopping-bag.png" style={icon} alt="Parcels" />
           <p>Parcels</p>
         </div>
         <div style={gridItem} onClick={() => handleNavigate('/settings')}>
