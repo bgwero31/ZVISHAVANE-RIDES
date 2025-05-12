@@ -12,9 +12,9 @@ export default function Home() {
     const hour = new Date().getHours();
     let greeting = 'Welcome to NEXRIDE. Let’s get your ride moving.';
 
-    if (hour < 12) greeting = 'Good morning. Welcome to Zvish Rides.';
-    else if (hour < 17) greeting = 'Good afternoon. Welcome to Zvish Rides.';
-    else greeting = 'Good evening. Welcome to Zvish Rides.';
+    if (hour < 12) greeting = 'Good morning. Welcome to nexride.';
+    else if (hour < 17) greeting = 'Good afternoon. Welcome to nexride.';
+    else greeting = 'Good evening. Welcome to nexride.';
 
     const utterance = new SpeechSynthesisUtterance(greeting + ' Where do you want to go?');
     utterance.lang = 'en-US';
