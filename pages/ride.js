@@ -121,7 +121,7 @@ export default function Home() {
                 onClick={handleConfirm}
                 style={buttonStyle}
               >
-                Confirm Ride
+                Request Ride
               </button>
             </>
           ) : (
