@@ -1,41 +1,49 @@
 'use client';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function Dashboard() {
-  const router = useRouter();
-
-  const handleNavigate = (path) => {
-    router.push(path);
-  };
-
   return (
     <div style={container}>
       <h1 style={title}>Welcome to B.JAY RIDES</h1>
       <div style={grid}>
-        <div style={gridItem} onClick={() => handleNavigate('/cars')}>
-          <img src="https://img.icons8.com/ios-filled/100/car--v1.png" style={icon} alt="Cars" />
-          <p>Cars</p>
-        </div>
-        <div style={gridItem} onClick={() => handleNavigate('/buses')}>
-          <img src="https://img.icons8.com/ios-filled/100/bus.png" style={icon} alt="Buses" />
-          <p>Buses</p>
-        </div>
-        <div style={gridItem} onClick={() => handleNavigate('/parcels')}>
-          <img src="https://img.icons8.com/ios-filled/100/shopping-bag.png" style={icon} alt="Parcels" />
-          <p>Parcels</p>
-        </div>
-        <div style={gridItem} onClick={() => handleNavigate('/settings')}>
-          <img src="https://img.icons8.com/ios-filled/100/settings.png" style={icon} alt="Settings" />
-          <p>Settings</p>
-        </div>
+        <DashboardCard
+          title="Cars"
+          icon="https://img.icons8.com/ios-filled/100/car--v1.png"
+          href="/ride"
+        />
+        <DashboardCard
+          title="Buses"
+          icon="https://img.icons8.com/ios-filled/100/bus.png"
+          href="/buses"
+        />
+        <DashboardCard
+          title="Parcels"
+          icon="https://img.icons8.com/ios-filled/100/shopping-bag.png"
+          href="/parcels"
+        />
+        <DashboardCard
+          title="Settings"
+          icon="https://img.icons8.com/ios-filled/100/settings.png"
+          href="/settings"
+        />
       </div>
     </div>
   );
 }
 
+function DashboardCard({ title, icon, href }) {
+  return (
+    <Link href={href} style={{ textDecoration: 'none' }}>
+      <div style={gridItem}>
+        <img src={icon} alt={title} style={iconStyle} />
+        <p style={{ margin: 0, fontWeight: 'bold' }}>{title}</p>
+      </div>
+    </Link>
+  );
+}
+
 const container = {
-  padding: '1.5rem',
-  textAlign: 'center',
+  padding: '2rem',
   fontFamily: 'Segoe UI, sans-serif',
   background: 'linear-gradient(135deg, #000428, #004e92)',
   color: '#fff',
@@ -43,26 +51,29 @@ const container = {
 };
 
 const title = {
-  fontSize: '1.8rem',
+  fontSize: '2rem',
+  textAlign: 'center',
   marginBottom: '2rem',
 };
 
 const grid = {
   display: 'grid',
   gridTemplateColumns: '1fr 1fr',
-  gap: '1.4rem',
+  gap: '1.5rem',
 };
 
 const gridItem = {
-  backgroundColor: '#003366',
-  borderRadius: '15px',
-  padding: '1.5rem',
+  backgroundColor: '#fff',
+  color: '#003366',
+  padding: '2rem',
+  borderRadius: '12px',
+  textAlign: 'center',
+  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
   cursor: 'pointer',
-  boxShadow: '0 4px 10px rgba(0, 0, 0, 0.4)',
-  transition: '0.3s ease-in-out',
+  transition: 'transform 0.2s ease',
 };
 
-const icon = {
+const iconStyle = {
   width: '50px',
-  marginBottom: '0.8rem',
+  marginBottom: '1rem',
 };
