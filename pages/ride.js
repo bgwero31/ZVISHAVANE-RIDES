@@ -5,6 +5,7 @@ export default function Home() {
   const [pickup, setPickup] = useState('');
   const [dropoff, setDropoff] = useState('');
   const [offer, setOffer] = useState('');
+  const [rideRequested, setRideRequested] = useState(false);
 
   useEffect(() => {
     const hour = new Date().getHours();
@@ -33,6 +34,7 @@ export default function Home() {
       const message = `Your ride from ${pickup} to ${dropoff} has been booked for ${offer} dollars.`;
       speak(message);
       alert(message);
+      setRideRequested(true); // show success message
     } else {
       speak("Please enter all details to book your ride.");
     }
@@ -77,33 +79,41 @@ export default function Home() {
           backdropFilter: 'blur(10px)',
           border: '1px solid rgba(255, 255, 255, 0.1)'
         }}>
-          <input
-            type="text"
-            placeholder="Pickup Location"
-            style={inputStyle}
-            value={pickup}
-            onChange={(e) => setPickup(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Dropoff Location"
-            style={inputStyle}
-            value={dropoff}
-            onChange={(e) => setDropoff(e.target.value)}
-          />
-          <input
-            type="number"
-            placeholder="Offer Price"
-            style={inputStyle}
-            value={offer}
-            onChange={(e) => setOffer(e.target.value)}
-          />
-          <button
-            onClick={handleConfirm}
-            style={buttonStyle}
-          >
-            Confirm Ride
-          </button>
+          {!rideRequested ? (
+            <>
+              <input
+                type="text"
+                placeholder="Pickup Location"
+                style={inputStyle}
+                value={pickup}
+                onChange={(e) => setPickup(e.target.value)}
+              />
+              <input
+                type="text"
+                placeholder="Dropoff Location"
+                style={inputStyle}
+                value={dropoff}
+                onChange={(e) => setDropoff(e.target.value)}
+              />
+              <input
+                type="number"
+                placeholder="Offer Price"
+                style={inputStyle}
+                value={offer}
+                onChange={(e) => setOffer(e.target.value)}
+              />
+              <button
+                onClick={handleConfirm}
+                style={buttonStyle}
+              >
+                Confirm Ride
+              </button>
+            </>
+          ) : (
+            <p style={{ fontSize: '1.1rem', color: 'lightgreen' }}>
+              Ride requested! Waiting for driver confirmation...
+            </p>
+          )}
         </div>
       </div>
 
