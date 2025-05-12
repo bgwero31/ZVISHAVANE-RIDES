@@ -10,7 +10,7 @@ export default function Home() {
 
   useEffect(() => {
     const hour = new Date().getHours();
-    let greeting = 'Welcome to ZVISHAVANE RIDES. Let’s get your ride moving.';
+    let greeting = 'Welcome to NEXRIDE. Let’s get your ride moving.';
 
     if (hour < 12) greeting = 'Good morning. Welcome to Zvish Rides.';
     else if (hour < 17) greeting = 'Good afternoon. Welcome to Zvish Rides.';
@@ -73,10 +73,10 @@ export default function Home() {
       {/* Main Section */}
       <div>
         <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>
-          Zvishavane Rides
+          NEXRIDE
         </h1>
         <p style={{ fontSize: '1.2rem', marginBottom: '2rem' }}>
-          Move around Zvishavane faster, cheaper and smarter.
+          Move around faster, cheaper and smarter.
         </p>
 
         <div style={{
@@ -140,7 +140,7 @@ export default function Home() {
         color: '#ccc',
         fontSize: '0.9rem'
       }}>
-        &copy; {new Date().getFullYear()} Zvishavane Rides. All rights reserved.
+        &copy; {new Date().getFullYear()} Nexride. All rights reserved.
       </footer>
 
       <style jsx>{`
