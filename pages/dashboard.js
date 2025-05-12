@@ -4,7 +4,7 @@ import Link from 'next/link';
 export default function Dashboard() {
   return (
     <div style={container}>
-      <h1 style={title}>Welcome to B.JAY RIDES</h1>
+      <h1 style={title}>NEXRIDE</h1>
       <div style={grid}>
         <DashboardCard
           title="Cars"
