@@ -11,7 +11,7 @@ export default function LoginPage() {
 
   const handleLogin = () => {
     if ((emailOrPhone) && password === correctPassword) {
-      router.push('/ride');
+      router.push('/dashboard'); // Changed from /ride to /dashboard
     } else {
       alert('Please check your email/phone and password');
     }
