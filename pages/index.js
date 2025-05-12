@@ -10,42 +10,47 @@ export default function LoginPage() {
   const correctPassword = 'shabhani';
 
   const handleLogin = () => {
-    if ((emailOrPhone) && password === correctPassword) {
-      router.push('/dashboard'); // Changed from /ride to /dashboard
+    if (emailOrPhone && password === correctPassword) {
+      router.push('/dashboard');
     } else {
       alert('Please check your email/phone and password');
     }
   };
 
   return (
-    <div style={{
-      background: 'linear-gradient(to right, #0f2027, #203a43, #2c5364)',
-      minHeight: '100vh',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      color: '#fff',
-      fontFamily: 'Segoe UI, sans-serif',
-      padding: '2rem',
-    }}>
-      <h1 style={{ fontSize: '3rem', marginBottom: '1rem' }}>
+    <div
+      style={{
+        backgroundImage: 'url("https://img.freepik.com/free-vector/flat-transport-illustration_23-2148152190.jpg")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        color: '#fff',
+        fontFamily: 'Segoe UI, sans-serif',
+        padding: '2rem',
+      }}
+    >
+      <h1 style={{ fontSize: '3rem', marginBottom: '1rem', textShadow: '2px 2px 4px #000' }}>
         Welcome to <span style={{ color: '#00f2fe' }}>ZVISHAVANE RIDES</span>
       </h1>
-      <p style={{ fontSize: '1.2rem', marginBottom: '2rem', textAlign: 'center' }}>
+      <p style={{ fontSize: '1.2rem', marginBottom: '2rem', textAlign: 'center', textShadow: '1px 1px 2px #000' }}>
         Fast, Smart, and Affordable Transport in Zvishavane
       </p>
 
-      <div style={{
-        backgroundColor: '#ffffff25',
-        padding: '2rem',
-        borderRadius: '12px',
-        width: '100%',
-        maxWidth: '400px',
-        backdropFilter: 'blur(10px)',
-        boxShadow: '0 4px 30px rgba(0, 0, 0, 0.2)',
-        animation: 'glowEffect 1.5s ease-in-out infinite',
-      }}>
+      <div
+        style={{
+          backgroundColor: 'rgba(0, 0, 0, 0.6)',
+          padding: '2rem',
+          borderRadius: '12px',
+          width: '100%',
+          maxWidth: '400px',
+          backdropFilter: 'blur(10px)',
+          boxShadow: '0 4px 30px rgba(0, 0, 0, 0.2)',
+        }}
+      >
         <input
           type="text"
           placeholder="Enter Email or Phone Number"
@@ -64,18 +69,14 @@ export default function LoginPage() {
           Continue
         </button>
 
-        <Link href="/driver" style={{ textDecoration: 'none' }}>
+        <Link href="/driver" passHref>
           <button style={{ ...buttonStyle, marginTop: '1rem', backgroundColor: '#ffcc00' }}>
             Driver Page
           </button>
         </Link>
       </div>
 
-      <footer style={{
-        marginTop: '3rem',
-        fontSize: '0.9rem',
-        color: '#ccc'
-      }}>
+      <footer style={{ marginTop: '3rem', fontSize: '0.9rem', color: '#ccc', textShadow: '1px 1px 2px #000' }}>
         &copy; {new Date().getFullYear()} Zvishavane Rides | All rights reserved
       </footer>
     </div>
