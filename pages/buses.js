@@ -1,9 +1,10 @@
 'use client';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function BusDetails() {
   const { id } = useParams();
+  const router = useRouter();
   const [bus, setBus] = useState(null);
 
   const buses = [
@@ -18,7 +19,14 @@ export default function BusDetails() {
   }, [id]);
 
   if (!bus) {
-    return <div style={container}><p>Bus not found...</p></div>;
+    return (
+      <div style={container}>
+        <p>Bus not found...</p>
+        <button style={button} onClick={() => router.push('/buses')}>
+          Back to Search
+        </button>
+      </div>
+    );
   }
 
   return (
@@ -30,6 +38,9 @@ export default function BusDetails() {
       <p><strong>Departure:</strong> {bus.time}</p>
       <button style={button} onClick={() => alert('Booking confirmed!')}>
         Confirm Booking
+      </button>
+      <button style={{ ...button, marginTop: '1rem', backgroundColor: '#ffffff', color: '#003366' }} onClick={() => router.push('/buses')}>
+        Back to Buses
       </button>
     </div>
   );
