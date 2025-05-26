@@ -3,9 +3,10 @@ import Link from 'next/link';
 
 export default function Dashboard() {
   return (
-    <div style={container}>
-      <h1 style={title}>NEXRIDE</h1>
-      <div style={grid}>
+    <div className="min-h-screen p-6 bg-gradient-to-br from-black to-blue-900 text-white font-sans">
+      <h1 className="text-4xl font-bold text-center mb-10">NEXRIDE</h1>
+      
+      <div className="grid grid-cols-2 gap-6">
         <DashboardCard
           title="Cars"
           icon="https://img.icons8.com/ios-filled/100/car--v1.png"
@@ -28,69 +29,24 @@ export default function Dashboard() {
         />
       </div>
 
-      <p style={driverText}>
+      {/* Are you a driver link */}
+      <div className="mt-12 text-center text-sm text-gray-300">
         Are you a driver?{' '}
-        <Link href="/driver" style={driverLink}>Sign in here</Link>
-      </p>
+        <Link href="/driver" className="text-cyan-400 underline">
+          Sign in here
+        </Link>
+      </div>
     </div>
   );
 }
 
 function DashboardCard({ title, icon, href }) {
   return (
-    <Link href={href} style={{ textDecoration: 'none' }}>
-      <div style={gridItem}>
-        <img src={icon} alt={title} style={iconStyle} />
-        <p style={{ margin: 0, fontWeight: 'bold' }}>{title}</p>
+    <Link href={href}>
+      <div className="bg-white text-blue-900 p-6 rounded-xl text-center shadow-md hover:scale-105 transition-transform cursor-pointer">
+        <img src={icon} alt={title} className="w-12 mx-auto mb-4" />
+        <p className="font-bold">{title}</p>
       </div>
     </Link>
   );
-}
-
-const container = {
-  padding: '2rem',
-  fontFamily: 'Segoe UI, sans-serif',
-  background: 'linear-gradient(135deg, #000428, #004e92)',
-  color: '#fff',
-  minHeight: '100vh',
-};
-
-const title = {
-  fontSize: '2rem',
-  textAlign: 'center',
-  marginBottom: '2rem',
-};
-
-const grid = {
-  display: 'grid',
-  gridTemplateColumns: '1fr 1fr',
-  gap: '1.5rem',
-};
-
-const gridItem = {
-  backgroundColor: '#fff',
-  color: '#003366',
-  padding: '2rem',
-  borderRadius: '12px',
-  textAlign: 'center',
-  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-  cursor: 'pointer',
-  transition: 'transform 0.2s ease',
-};
-
-const iconStyle = {
-  width: '50px',
-  marginBottom: '1rem',
-};
-
-const driverText = {
-  marginTop: '3rem',
-  fontSize: '0.9rem',
-  textAlign: 'center',
-  color: '#ccc',
-};
-
-const driverLink = {
-  color: '#00f2fe',
-  textDecoration: 'underline',
-};
+            }
