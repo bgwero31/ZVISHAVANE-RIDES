@@ -27,6 +27,11 @@ export default function Dashboard() {
           href="/settings"
         />
       </div>
+
+      <p style={driverText}>
+        Are you a driver?{' '}
+        <Link href="/driver" style={driverLink}>Sign in here</Link>
+      </p>
     </div>
   );
 }
@@ -76,4 +81,16 @@ const gridItem = {
 const iconStyle = {
   width: '50px',
   marginBottom: '1rem',
+};
+
+const driverText = {
+  marginTop: '3rem',
+  fontSize: '0.9rem',
+  textAlign: 'center',
+  color: '#ccc',
+};
+
+const driverLink = {
+  color: '#00f2fe',
+  textDecoration: 'underline',
 };
