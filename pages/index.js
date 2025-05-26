@@ -206,7 +206,7 @@ export default function LoginPage() {
   return (
     <div style={mainStyle}>
       <h1 style={{ fontSize: '3rem', marginBottom: '1rem' }}>
-        Welcome to <span style={{ color: '#00f2fe' }}>NEXT hih</span>
+        Welcome to <span style={{ color: '#00f2fe' }}>NEXRIDE</span>
       </h1>
       <p style={{ fontSize: '1.2rem', marginBottom: '2rem', textAlign: 'center' }}>
         Fast, Smart, and Affordable Transport
