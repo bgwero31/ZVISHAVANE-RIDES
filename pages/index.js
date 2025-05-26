@@ -65,33 +65,136 @@ export default function LoginPage() {
   };
 
   const render3DBackground = () => (
-    <div className="background3D">
+    <div className="nextRideBackground">
       <style jsx>{`
-        .background3D {
+        .nextRideBackground {
           position: fixed;
           width: 100%;
           height: 100%;
-          background: linear-gradient(135deg, #1f1c2c, #928dab);
+          background: radial-gradient(circle at center, #101820 0%, #0c0c0c 100%);
           overflow: hidden;
           z-index: -1;
         }
-        .background3D::before {
-          content: '';
+        .movingLines {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          background-image: linear-gradient(
+            to top,
+            transparent 70%,
+            rgba(0, 242, 254, 0.4) 85%,
+            transparent 100%
+          );
+          background-size: 100% 40px;
+          animation: moveLines 1.5s linear infinite;
+          opacity: 0.6;
+        }
+        .grid {
           position: absolute;
           width: 200%;
           height: 200%;
           top: -50%;
           left: -50%;
-          background: repeating-radial-gradient(circle, rgba(255,255,255,0.05) 0, rgba(255,255,255,0.05) 1px, transparent 1px, transparent 100px);
-          animation: rotateBackground 100s linear infinite;
+          background: repeating-linear-gradient(
+              to right,
+              rgba(0, 242, 254, 0.1) 0,
+              rgba(0, 242, 254, 0.1) 1px,
+              transparent 1px,
+              transparent 40px
+            ),
+            repeating-linear-gradient(
+              to bottom,
+              rgba(0, 242, 254, 0.1) 0,
+              rgba(0, 242, 254, 0.1) 1px,
+              transparent 1px,
+              transparent 40px
+            );
+          animation: rotateGrid 100s linear infinite;
+          opacity: 0.2;
         }
-        @keyframes rotateBackground {
-          0% { transform: rotate(0deg);}
-          100% { transform: rotate(360deg);}
+        @keyframes moveLines {
+          0% {
+            background-position: 0 0;
+          }
+          100% {
+            background-position: 0 100%;
+          }
+        }
+        @keyframes rotateGrid {
+          0% {
+            transform: rotate(0deg);
+          }
+          100% {
+            transform: rotate(360deg);
+          }
         }
       `}</style>
+      <div className="movingLines" />
+      <div className="grid" />
     </div>
   );
+
+  const splashStyle = {
+    width: '100%',
+    height: '100vh',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+    background: '#000',
+    color: '#fff',
+  };
+
+  const mainStyle = {
+    padding: '2rem',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    minHeight: '100vh',
+    justifyContent: 'center',
+    position: 'relative',
+    zIndex: 1,
+  };
+
+  const loginBoxStyle = {
+    width: '100%',
+    maxWidth: '400px',
+    background: 'rgba(255, 255, 255, 0.05)',
+    padding: '2rem',
+    borderRadius: '8px',
+    boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
+    backdropFilter: 'blur(10px)',
+  };
+
+  const inputStyle = {
+    width: '100%',
+    padding: '0.75rem',
+    marginBottom: '1rem',
+    borderRadius: '4px',
+    border: '1px solid #ccc',
+  };
+
+  const buttonStyle = {
+    width: '100%',
+    padding: '0.75rem',
+    backgroundColor: '#00f2fe',
+    color: '#000',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    fontWeight: 'bold',
+  };
+
+  const socialButtonStyle = {
+    width: '100%',
+    padding: '0.75rem',
+    backgroundColor: '#db4437',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    marginTop: '0.5rem',
+  };
 
   if (stage === 'splash') {
     return (
@@ -104,7 +207,7 @@ export default function LoginPage() {
 
   if (stage === 'spinner') {
     return (
-      <div style={{ ...splashStyle, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <div style={{ ...splashStyle, justifyContent: 'center', alignItems: 'center' }}>
         {render3DBackground()}
         <div className="spinner" />
         <style jsx>{`
@@ -222,72 +325,11 @@ export default function LoginPage() {
         )}
         {error && <p style={{ color: 'red', marginTop: '1rem', textAlign: 'center' }}>{error}</p>}
         <Link href="/driver" passHref>
-          <button style={{ ...buttonStyle, marginTop: '1rem', backgroundColor: '#ffcc00' }}>
-            Driver Page
+          <button style={{ ...buttonStyle, marginTop: '1rem', backgroundColor: '#6a11cb', color: '#fff' }}>
+            Driver Login
           </button>
         </Link>
       </div>
-
-      <footer style={footerStyle}>&copy; {new Date().getFullYear()} NexRide | All rights reserved</footer>
     </div>
   );
 }
-
-// Styles
-const splashStyle = {
-  textAlign: 'center',
-  paddingTop: '40vh',
-  color: '#fff',
-  height: '100vh',
-  position: 'relative',
-  zIndex: 1,
-};
-
-const mainStyle = {
-  padding: '2rem',
-  fontFamily: 'Arial, sans-serif',
-  minHeight: '100vh',
-  textAlign: 'center',
-  position: 'relative',
-  zIndex: 1,
-};
-
-const loginBoxStyle = {
-  maxWidth: '400px',
-  margin: '0 auto',
-  padding: '2rem',
-  backgroundColor: 'rgba(255, 255, 255, 0.95)',
-  borderRadius: '10px',
-  boxShadow: '0 0 10px rgba(0,0,0,0.2)',
-};
-
-const inputStyle = {
-  width: '100%',
-  padding: '0.75rem',
-  marginBottom: '1rem',
-  borderRadius: '5px',
-  border: '1px solid #ccc',
-};
-
-const buttonStyle = {
-  width: '100%',
-  padding: '0.75rem',
-  borderRadius: '5px',
-  border: 'none',
-  backgroundColor: '#00f2fe',
-  color: '#000',
-  fontWeight: 'bold',
-  cursor: 'pointer',
-};
-
-const socialButtonStyle = {
-  ...buttonStyle,
-  marginTop: '1rem',
-  backgroundColor: '#4285F4',
-  color: '#fff',
-};
-
-const footerStyle = {
-  marginTop: '2rem',
-  color: '#eee',
-};
