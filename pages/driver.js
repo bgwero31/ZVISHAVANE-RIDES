@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 
@@ -11,73 +9,53 @@ export default function DriverRequestPage() {
   const offer = searchParams.get('offer');
 
   const [decision, setDecision] = useState(null);
-
-  // Ref for animation frame
-  const animationRef = useRef(null);
   const containerRef = useRef(null);
 
-  // Animate background gradient like a 3D flowing effect
   useEffect(() => {
     let gradientPosition = 0;
+    let animationFrameId;
 
     function animate() {
-      gradientPosition += 1;
-      if (gradientPosition > 360) gradientPosition = 0;
-
+      gradientPosition = (gradientPosition + 1) % 360;
       if (containerRef.current) {
         containerRef.current.style.background = `linear-gradient(${gradientPosition}deg, #000428, #004e92)`;
       }
-
-      animationRef.current = requestAnimationFrame(animate);
+      animationFrameId = requestAnimationFrame(animate);
     }
-
     animate();
 
-    return () => {
-      cancelAnimationFrame(animationRef.current);
-    };
+    return () => cancelAnimationFrame(animationFrameId);
   }, []);
 
-  const handleAccept = () => {
-    setDecision('accepted');
-    // TODO: Update Firebase
-  };
+  return (
+    <div ref={containerRef} style={containerStyle}>
+      <h1 style={titleStyle}>New Ride Request</h1>
+      <div style={requestBox}>
+        <p style={infoText}><b>Rider:</b> {name}</p>
+        <p style={infoText}><b>Pickup:</b> {pickup}</p>
+        <p style={infoText}><b>Drop-off:</b> {dropoff}</p>
+        <p style={infoText}><b>Offer:</b> ${offer}</p>
 
-  const handleDecline = () => {
-    setDecision('declined');
-    // TODO: Update Firebase
-  };
+        {decision === null && (
+          <div style={buttonRow}>
+            <button style={declineButton} onClick={() => setDecision('declined')}>Decline</button>
+            <button style={acceptButton} onClick={() => setDecision('accepted')}>Accept</button>
+          </div>
+        )}
 
-  return React.createElement('div', { ref: containerRef, style: containerStyle },
-    React.createElement('h1', { style: titleStyle }, 'New Ride Request'),
-    React.createElement('div', { style: requestBox },
-      React.createElement('p', { style: infoText }, React.createElement('b', null, 'Rider:'), ' ', name),
-      React.createElement('p', { style: infoText }, React.createElement('b', null, 'Pickup:'), ' ', pickup),
-      React.createElement('p', { style: infoText }, React.createElement('b', null, 'Drop-off:'), ' ', dropoff),
-      React.createElement('p', { style: infoText }, React.createElement('b', null, 'Offer:'), ' $', offer),
-
-      decision === null &&
-      React.createElement('div', { style: buttonRow },
-        React.createElement('button', { onClick: handleDecline, style: declineButton }, 'Decline'),
-        React.createElement('button', { onClick: handleAccept, style: acceptButton }, 'Accept'),
-      ),
-
-      decision === 'accepted' &&
-      React.createElement('p', { style: confirmationText }, 'You have accepted the ride. Syncing with rider...'),
-
-      decision === 'declined' &&
-      React.createElement('p', { style: { color: 'red', fontSize: '0.85rem' } }, 'You have declined this ride.')
-    )
+        {decision === 'accepted' && <p style={confirmationText}>You have accepted the ride. Syncing with rider...</p>}
+        {decision === 'declined' && <p style={{ color: 'red', fontSize: '0.85rem' }}>You have declined this ride.</p>}
+      </div>
+    </div>
   );
 }
 
-// Styles
 const containerStyle = {
   padding: '1rem',
   minHeight: '100vh',
   color: '#fff',
   fontFamily: 'Segoe UI, sans-serif',
-  background: 'linear-gradient(135deg, #000428, #004e92)', // fallback, animated will override
+  background: 'linear-gradient(135deg, #000428, #004e92)',
 };
 
 const titleStyle = {
