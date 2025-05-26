@@ -1,12 +1,7 @@
 'use client';
 import Link from 'next/link';
-import { useEffect } from 'react';
 
 export default function Dashboard() {
-  useEffect(() => {
-    console.log("Dashboard loaded — check if 'Are you a driver?' is visible.");
-  }, []);
-
   return (
     <div style={container}>
       <h1 style={gradientTitle}>NEXRIDE</h1>
@@ -34,20 +29,13 @@ export default function Dashboard() {
         />
       </div>
 
-      {/* Driver Link */}
-      <div style={driverLinkContainer}>
-        <p style={{ color: '#00FFFF', fontWeight: 'bold' }}>
-          Are you a driver?{' '}
-          <Link href="/driver" style={{ color: '#FFFFFF', textDecoration: 'underline' }}>
-            Click here
-          </Link>
-        </p>
+      <div style={driverText}>
+        <Link href="/driver" style={driverLink}>Are you a driver?</Link>
       </div>
 
-      {/* Footer */}
-      <div style={footer}>
+      <footer style={footer}>
         NexRide © 2025
-      </div>
+      </footer>
     </div>
   );
 }
@@ -72,12 +60,11 @@ const container = {
   minHeight: '100vh',
   display: 'flex',
   flexDirection: 'column',
-  justifyContent: 'space-between',
+  alignItems: 'center',
 };
 
 const gradientTitle = {
   fontSize: '2.5rem',
-  textAlign: 'center',
   marginBottom: '2rem',
   background: 'linear-gradient(90deg, #00c6ff, #0072ff)',
   WebkitBackgroundClip: 'text',
@@ -107,14 +94,18 @@ const iconStyle = {
   marginBottom: '1rem',
 };
 
-const driverLinkContainer = {
-  marginTop: '3rem',
-  textAlign: 'center',
+const driverText = {
+  marginTop: '2rem',
+};
+
+const driverLink = {
+  color: '#00FFFF',
+  textDecoration: 'underline',
+  fontWeight: 'bold',
 };
 
 const footer = {
-  textAlign: 'center',
   marginTop: '3rem',
-  fontSize: '0.9rem',
   color: '#aaa',
+  fontSize: '0.9rem',
 };
