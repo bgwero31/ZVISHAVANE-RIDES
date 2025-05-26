@@ -25,6 +25,20 @@ export default function DriverView() {
 
   return (
     <div style={pageStyle}>
+      <style>{`
+        @keyframes gradientMove {
+          0% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
+        }
+      `}</style>
+
       <h1 style={titleStyle}>Ride Request Info</h1>
       <div style={boxStyle}>
         <p><strong>Customer Name:</strong> {rideData.name}</p>
@@ -39,6 +53,8 @@ export default function DriverView() {
 const pageStyle = {
   minHeight: '100vh',
   background: 'linear-gradient(135deg, #000428, #004e92)',
+  backgroundSize: '400% 400%',
+  animation: 'gradientMove 15s ease infinite',
   color: '#fff',
   padding: '2rem',
   fontFamily: 'Segoe UI, sans-serif',
