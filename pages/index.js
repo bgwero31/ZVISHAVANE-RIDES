@@ -3,37 +3,41 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 
 export default function LoginPage() {
-const [stage, setStage] = useState('splash'); // splash -> spinner -> login
 const [emailOrPhone, setEmailOrPhone] = useState('');
 const [password, setPassword] = useState('');
+const [showSplash, setShowSplash] = useState(true);
+const [showSpinner, setShowSpinner] = useState(false);
 const router = useRouter();
 
+const correctPassword = 'shabhani';
+
 useEffect(() => {
+// Show splash for 5 seconds
 const splashTimer = setTimeout(() => {
-setStage('spinner');
-const spinnerTimer = setTimeout(() => {
-setStage('login');
-}, 3000);
-return () => clearTimeout(spinnerTimer);
-}, 5000);
+setShowSplash(false);
+setShowSpinner(true);
+
+// Show spinner for 3 seconds, then login screen  
+  const spinnerTimer = setTimeout(() => {  
+    setShowSpinner(false);  
+  }, 3000);  
+
+  return () => clearTimeout(spinnerTimer);  
+}, 5000);  
 
 return () => clearTimeout(splashTimer);
 
 }, []);
 
 const handleLogin = () => {
-if (emailOrPhone.trim() && password === 'shabhani') {
+if ((emailOrPhone) && password === correctPassword) {
 router.push('/dashboard');
 } else {
-alert('Invalid email/phone or password');
+alert('Please check your email/phone and password');
 }
 };
 
-const handleKeyPress = (e) => {
-if (e.key === 'Enter') handleLogin();
-};
-
-if (stage === 'splash') {
+if (showSplash) {
 return (
 <div style={splashStyle}>
 <h1 style={{ fontSize: '3rem', color: '#00f2fe' }}>NEXRIDE</h1>
@@ -41,7 +45,7 @@ return (
 );
 }
 
-if (stage === 'spinner') {
+if (showSpinner) {
 return (
 <div style={splashStyle}>
 <div className="loader" />
@@ -65,7 +69,6 @@ Fast, Smart, and Affordable Transport
       placeholder="Enter Email or Phone Number"  
       value={emailOrPhone}  
       onChange={(e) => setEmailOrPhone(e.target.value)}  
-      onKeyDown={handleKeyPress}  
       style={inputStyle}  
     />  
     <input  
@@ -73,25 +76,10 @@ Fast, Smart, and Affordable Transport
       placeholder="Enter Password"  
       value={password}  
       onChange={(e) => setPassword(e.target.value)}  
-      onKeyDown={handleKeyPress}  
       style={inputStyle}  
     />  
     <button onClick={handleLogin} style={buttonStyle}>  
       Continue  
-    </button>  
-
-    <button  
-      onClick={() => alert('Reset password feature coming soon!')}  
-      style={{ ...buttonStyle, marginTop: '1rem', backgroundColor: '#2c5364', color: '#fff' }}  
-    >  
-      Forgot Password?  
-    </button>  
-
-    <button  
-      onClick={() => alert('Signup page coming soon!')}  
-      style={{ ...buttonStyle, marginTop: '1rem', backgroundColor: '#203a43', color: '#fff' }}  
-    >  
-      Sign Up  
     </button>  
 
     <Link href="/driver" style={{ textDecoration: 'none' }}>  
@@ -109,7 +97,7 @@ Fast, Smart, and Affordable Transport
 );
 }
 
-// Splash + Spinner style
+// Styles
 const splashStyle = {
 backgroundColor: '#0f2027',
 color: '#00f2fe',
@@ -120,7 +108,6 @@ alignItems: 'center',
 flexDirection: 'column',
 };
 
-// Main login styles
 const mainStyle = {
 background: 'linear-gradient(to right, #0f2027, #203a43, #2c5364)',
 minHeight: '100vh',
