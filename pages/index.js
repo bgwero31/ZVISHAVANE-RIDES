@@ -1,138 +1,264 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
 export default function LoginPage() {
+  const [stage, setStage] = useState('splash');
   const [emailOrPhone, setEmailOrPhone] = useState('');
   const [password, setPassword] = useState('');
+  const [phoneCodeSent, setPhoneCodeSent] = useState(false);
+  const [phoneOTP, setPhoneOTP] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
 
-  const correctPassword = 'shabhani';
+  useEffect(() => {
+    const splashTimer = setTimeout(() => {
+      setStage('spinner');
+      const spinnerTimer = setTimeout(() => {
+        setStage('login');
+      }, 3000);
+      return () => clearTimeout(spinnerTimer);
+    }, 5000);
+    return () => clearTimeout(splashTimer);
+  }, []);
 
-  const handleLogin = () => {
+  // Placeholder login/signup handlers (no Firebase)
+  const handleLogin = async () => {
     setError('');
-    if (!emailOrPhone) {
-      setError('Please enter your email or phone number.');
+    if (!emailOrPhone.trim() || !password) {
+      setError('Please enter email/phone and password');
       return;
     }
-    if (!password) {
-      setError('Please enter your password.');
-      return;
-    }
-
     setLoading(true);
-
-    // Simulate async login delay
+    // Simulate login success after 1 second
     setTimeout(() => {
       setLoading(false);
-      if (password === correctPassword) {
-        router.push('/dashboard');
-      } else {
-        setError('Incorrect password. Please try again.');
-      }
+      router.push('/dashboard'); // Redirect after "login"
     }, 1000);
   };
 
+  const handleSignup = async () => {
+    setError('');
+    if (!emailOrPhone.trim() || !password) {
+      setError('Please enter email/phone and password');
+      return;
+    }
+    setLoading(true);
+    // Simulate signup success after 1 second
+    setTimeout(() => {
+      setLoading(false);
+      router.push('/dashboard'); // Redirect after "signup"
+    }, 1000);
+  };
+
+  // Disabled social login handlers - just alerts
+  const handleGoogleLogin = () => alert('Google login coming soon!');
+  const handleFacebookLogin = () => alert('Facebook login coming soon!');
+  const sendPhoneOTP = () => alert('Phone login coming soon!');
+  const verifyPhoneOTP = () => alert('OTP verification coming soon!');
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      if (phoneCodeSent) {
+        verifyPhoneOTP();
+      } else {
+        handleLogin();
+      }
+    }
+  };
+
+  if (stage === 'splash') {
+    return (
+      <div style={splashStyle}>
+        <h1 style={{ fontSize: '3rem', color: '#00f2fe' }}>NEXRIDE</h1>
+      </div>
+    );
+  }
+
+  if (stage === 'spinner') {
+    return (
+      <div style={{ ...splashStyle, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <div className="spinner" />
+        <style jsx>{`
+          .spinner {
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid #00f2fe;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+          }
+          @keyframes spin {
+            0% { transform: rotate(0deg);}
+            100% { transform: rotate(360deg);}
+          }
+        `}</style>
+      </div>
+    );
+  }
+
+  // Login form UI
   return (
     <div style={mainStyle}>
-      <h1 style={{ fontSize: '3rem', marginBottom: '1rem', textShadow: '2px 2px 4px #000' }}>
-        Welcome to <span style={{ color: '#00f2fe' }}>NexRide</span>
+      <h1 style={{ fontSize: '3rem', marginBottom: '1rem' }}>
+        Welcome to <span style={{ color: '#00f2fe' }}>NEXRIDE</span>
       </h1>
-      <p style={{ fontSize: '1.2rem', marginBottom: '2rem', textAlign: 'center', textShadow: '1px 1px 2px #000' }}>
-        Fast, Smart, and Affordable Transport in Zvishavane
+      <p style={{ fontSize: '1.2rem', marginBottom: '2rem', textAlign: 'center' }}>
+        Fast, Smart, and Affordable Transport
       </p>
 
       <div style={loginBoxStyle}>
-        <input
-          type="text"
-          placeholder="Enter Email or Phone Number"
-          value={emailOrPhone}
-          onChange={(e) => setEmailOrPhone(e.target.value)}
-          style={inputStyle}
-          disabled={loading}
-        />
-        <input
-          type="password"
-          placeholder="Enter Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          style={inputStyle}
-          disabled={loading}
-        />
-        <button onClick={handleLogin} style={buttonStyle} disabled={loading}>
-          {loading ? 'Logging in...' : 'Continue'}
-        </button>
+        {!phoneCodeSent ? (
+          <>
+            <input
+              type="text"
+              placeholder="Enter Email or Phone Number (+countrycode)"
+              value={emailOrPhone}
+              onChange={(e) => setEmailOrPhone(e.target.value)}
+              onKeyDown={handleKeyPress}
+              style={inputStyle}
+              autoComplete="username"
+            />
+            <input
+              type="password"
+              placeholder="Enter Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              onKeyDown={handleKeyPress}
+              style={inputStyle}
+              autoComplete="current-password"
+            />
+            <button onClick={handleLogin} style={buttonStyle} disabled={loading}>
+              {loading ? 'Logging in...' : 'Login'}
+            </button>
+            <button
+              onClick={handleSignup}
+              style={{ ...buttonStyle, marginTop: '1rem', backgroundColor: '#007acc' }}
+              disabled={loading}
+            >
+              {loading ? 'Signing up...' : 'Sign Up'}
+            </button>
+            <button
+              onClick={() => alert('Reset password feature coming soon!')}
+              style={{ ...buttonStyle, marginTop: '1rem', backgroundColor: '#2c5364', color: '#fff' }}
+            >
+              Forgot Password?
+            </button>
 
-        {error && (
-          <p style={{ color: 'red', marginTop: '1rem', textAlign: 'center' }}>
-            {error}
-          </p>
+            <div style={{ marginTop: '2rem', textAlign: 'center' }}>
+              <div style={{ marginBottom: '0.5rem' }}>Or login with:</div>
+              <button onClick={handleGoogleLogin} style={socialButtonStyle} disabled={loading}>
+                Continue with Google
+              </button>
+              <button
+                onClick={handleFacebookLogin}
+                style={{ ...socialButtonStyle, backgroundColor: '#3b5998' }}
+                disabled={loading}
+              >
+                Continue with Facebook
+              </button>
+              <button
+                onClick={sendPhoneOTP}
+                style={{ ...socialButtonStyle, backgroundColor: '#25D366' }}
+                disabled={loading}
+              >
+                Continue with Phone (SMS)
+              </button>
+            </div>
+          </>
+        ) : (
+          <>
+            <input
+              type="text"
+              placeholder="Enter OTP code"
+              value={phoneOTP}
+              onChange={(e) => setPhoneOTP(e.target.value)}
+              onKeyDown={handleKeyPress}
+              style={inputStyle}
+            />
+            <button onClick={verifyPhoneOTP} style={buttonStyle} disabled={loading}>
+              {loading ? 'Verifying...' : 'Verify OTP'}
+            </button>
+            <button
+              onClick={() => {
+                setPhoneCodeSent(false);
+                setPhoneOTP('');
+                setError('');
+              }}
+              style={{ ...buttonStyle, marginTop: '1rem', backgroundColor: '#ccc', color: '#000' }}
+              disabled={loading}
+            >
+              Back
+            </button>
+          </>
         )}
-
+        {error && <p style={{ color: 'red', marginTop: '1rem', textAlign: 'center' }}>{error}</p>}
         <Link href="/driver" passHref>
-          <button
-            style={{ ...buttonStyle, marginTop: '1rem', backgroundColor: '#ffcc00', color: '#000' }}
-            disabled={loading}
-          >
+          <button style={{ ...buttonStyle, marginTop: '1rem', backgroundColor: '#ffcc00' }}>
             Driver Page
           </button>
         </Link>
       </div>
 
-      <footer style={footerStyle}>
-        &copy; {new Date().getFullYear()} NexRide | All rights reserved
-      </footer>
+      <footer style={footerStyle}>&copy; {new Date().getFullYear()} NexRide | All rights reserved</footer>
     </div>
   );
 }
 
-const mainStyle = {
-  background: 'linear-gradient(to right, #0f2027, #203a43, #2c5364)',
-  minHeight: '100vh',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  alignItems: 'center',
+// Styles
+const splashStyle = {
+  textAlign: 'center',
+  paddingTop: '40vh',
+  backgroundColor: '#000',
   color: '#fff',
-  fontFamily: 'Segoe UI, sans-serif',
+  height: '100vh',
+};
+
+const mainStyle = {
   padding: '2rem',
+  fontFamily: 'Arial, sans-serif',
+  backgroundColor: '#f5f5f5',
+  minHeight: '100vh',
+  textAlign: 'center',
 };
 
 const loginBoxStyle = {
-  backgroundColor: '#ffffff25',
-  padding: '2rem',
-  borderRadius: '12px',
-  width: '100%',
   maxWidth: '400px',
-  backdropFilter: 'blur(10px)',
-  boxShadow: '0 4px 30px rgba(0, 0, 0, 0.2)',
+  margin: '0 auto',
+  padding: '2rem',
+  backgroundColor: '#fff',
+  borderRadius: '10px',
+  boxShadow: '0 0 10px rgba(0,0,0,0.1)',
 };
 
 const inputStyle = {
   width: '100%',
-  padding: '0.8rem',
+  padding: '0.75rem',
   marginBottom: '1rem',
-  borderRadius: '8px',
-  border: 'none',
-  fontSize: '1rem',
+  borderRadius: '5px',
+  border: '1px solid #ccc',
 };
 
 const buttonStyle = {
+  width: '100%',
+  padding: '0.75rem',
+  borderRadius: '5px',
+  border: 'none',
   backgroundColor: '#00f2fe',
   color: '#000',
-  padding: '0.8rem',
-  borderRadius: '8px',
-  border: 'none',
-  width: '100%',
   fontWeight: 'bold',
-  fontSize: '1rem',
   cursor: 'pointer',
 };
 
+const socialButtonStyle = {
+  ...buttonStyle,
+  marginTop: '1rem',
+  backgroundColor: '#4285F4',
+  color: '#fff',
+};
+
 const footerStyle = {
-  marginTop: '3rem',
-  fontSize: '0.9rem',
-  color: '#ccc',
+  marginTop: '2rem',
+  color: '#666',
 };
