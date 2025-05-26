@@ -23,7 +23,6 @@ export default function LoginPage() {
     return () => clearTimeout(splashTimer);
   }, []);
 
-  // Placeholder login/signup handlers (no Firebase)
   const handleLogin = async () => {
     setError('');
     if (!emailOrPhone.trim() || !password) {
@@ -31,10 +30,9 @@ export default function LoginPage() {
       return;
     }
     setLoading(true);
-    // Simulate login success after 1 second
     setTimeout(() => {
       setLoading(false);
-      router.push('/dashboard'); // Redirect after "login"
+      router.push('/dashboard');
     }, 1000);
   };
 
@@ -45,14 +43,12 @@ export default function LoginPage() {
       return;
     }
     setLoading(true);
-    // Simulate signup success after 1 second
     setTimeout(() => {
       setLoading(false);
-      router.push('/dashboard'); // Redirect after "signup"
+      router.push('/dashboard');
     }, 1000);
   };
 
-  // Disabled social login handlers - just alerts
   const handleGoogleLogin = () => alert('Google login coming soon!');
   const handleFacebookLogin = () => alert('Facebook login coming soon!');
   const sendPhoneOTP = () => alert('Phone login coming soon!');
@@ -68,9 +64,39 @@ export default function LoginPage() {
     }
   };
 
+  const render3DBackground = () => (
+    <div className="background3D">
+      <style jsx>{`
+        .background3D {
+          position: fixed;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(135deg, #1f1c2c, #928dab);
+          overflow: hidden;
+          z-index: -1;
+        }
+        .background3D::before {
+          content: '';
+          position: absolute;
+          width: 200%;
+          height: 200%;
+          top: -50%;
+          left: -50%;
+          background: repeating-radial-gradient(circle, rgba(255,255,255,0.05) 0, rgba(255,255,255,0.05) 1px, transparent 1px, transparent 100px);
+          animation: rotateBackground 100s linear infinite;
+        }
+        @keyframes rotateBackground {
+          0% { transform: rotate(0deg);}
+          100% { transform: rotate(360deg);}
+        }
+      `}</style>
+    </div>
+  );
+
   if (stage === 'splash') {
     return (
       <div style={splashStyle}>
+        {render3DBackground()}
         <h1 style={{ fontSize: '3rem', color: '#00f2fe' }}>NEXRIDE</h1>
       </div>
     );
@@ -79,6 +105,7 @@ export default function LoginPage() {
   if (stage === 'spinner') {
     return (
       <div style={{ ...splashStyle, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        {render3DBackground()}
         <div className="spinner" />
         <style jsx>{`
           .spinner {
@@ -98,9 +125,9 @@ export default function LoginPage() {
     );
   }
 
-  // Login form UI
   return (
     <div style={mainStyle}>
+      {render3DBackground()}
       <h1 style={{ fontSize: '3rem', marginBottom: '1rem' }}>
         Welcome to <span style={{ color: '#00f2fe' }}>NEXRIDE</span>
       </h1>
@@ -210,26 +237,28 @@ export default function LoginPage() {
 const splashStyle = {
   textAlign: 'center',
   paddingTop: '40vh',
-  backgroundColor: '#000',
   color: '#fff',
   height: '100vh',
+  position: 'relative',
+  zIndex: 1,
 };
 
 const mainStyle = {
   padding: '2rem',
   fontFamily: 'Arial, sans-serif',
-  backgroundColor: '#f5f5f5',
   minHeight: '100vh',
   textAlign: 'center',
+  position: 'relative',
+  zIndex: 1,
 };
 
 const loginBoxStyle = {
   maxWidth: '400px',
   margin: '0 auto',
   padding: '2rem',
-  backgroundColor: '#fff',
+  backgroundColor: 'rgba(255, 255, 255, 0.95)',
   borderRadius: '10px',
-  boxShadow: '0 0 10px rgba(0,0,0,0.1)',
+  boxShadow: '0 0 10px rgba(0,0,0,0.2)',
 };
 
 const inputStyle = {
@@ -260,5 +289,5 @@ const socialButtonStyle = {
 
 const footerStyle = {
   marginTop: '2rem',
-  color: '#666',
+  color: '#eee',
 };
