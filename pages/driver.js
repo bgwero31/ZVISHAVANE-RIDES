@@ -23,29 +23,39 @@ export default function DriverRequestPage() {
   };
 
   return (
-    <div style={containerStyle}>
-      <h1 style={titleStyle}>New Ride Request</h1>
-      <div style={requestBox}>
-        <p style={infoText}><b>Rider:</b> {name}</p>
-        <p style={infoText}><b>Pickup:</b> {pickup}</p>
-        <p style={infoText}><b>Drop-off:</b> {dropoff}</p>
-        <p style={infoText}><b>Offer:</b> ${offer}</p>
+    <>
+      <style>{`
+        @keyframes gradientShift {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+      `}</style>
 
-        {decision === null && (
-          <div style={buttonRow}>
-            <button onClick={handleDecline} style={declineButton}>Decline</button>
-            <button onClick={handleAccept} style={acceptButton}>Accept</button>
-          </div>
-        )}
+      <div style={containerStyle}>
+        <h1 style={titleStyle}>New Ride Request</h1>
+        <div style={requestBox}>
+          <p style={infoText}><b>Rider:</b> {name}</p>
+          <p style={infoText}><b>Pickup:</b> {pickup}</p>
+          <p style={infoText}><b>Drop-off:</b> {dropoff}</p>
+          <p style={infoText}><b>Offer:</b> ${offer}</p>
 
-        {decision === 'accepted' && (
-          <p style={confirmationText}>You have accepted the ride. Syncing with rider...</p>
-        )}
-        {decision === 'declined' && (
-          <p style={{ color: 'red', fontSize: '0.85rem' }}>You have declined this ride.</p>
-        )}
+          {decision === null && (
+            <div style={buttonRow}>
+              <button onClick={handleDecline} style={declineButton}>Decline</button>
+              <button onClick={handleAccept} style={acceptButton}>Accept</button>
+            </div>
+          )}
+
+          {decision === 'accepted' && (
+            <p style={confirmationText}>You have accepted the ride. Syncing with rider...</p>
+          )}
+          {decision === 'declined' && (
+            <p style={{ color: 'red', fontSize: '0.85rem' }}>You have declined this ride.</p>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
@@ -53,6 +63,8 @@ export default function DriverRequestPage() {
 const containerStyle = {
   padding: '1rem',
   background: 'linear-gradient(135deg, #000428, #004e92)',
+  backgroundSize: '400% 400%',
+  animation: 'gradientShift 15s ease infinite',
   minHeight: '100vh',
   color: '#fff',
   fontFamily: 'Segoe UI, sans-serif',
