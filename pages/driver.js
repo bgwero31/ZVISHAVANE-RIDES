@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 export default function DriverRequestPage() {
@@ -12,64 +12,72 @@ export default function DriverRequestPage() {
 
   const [decision, setDecision] = useState(null);
 
+  // Ref for animation frame
+  const animationRef = useRef(null);
+  const containerRef = useRef(null);
+
+  // Animate background gradient like a 3D flowing effect
+  useEffect(() => {
+    let gradientPosition = 0;
+
+    function animate() {
+      gradientPosition += 1;
+      if (gradientPosition > 360) gradientPosition = 0;
+
+      if (containerRef.current) {
+        containerRef.current.style.background = `linear-gradient(${gradientPosition}deg, #000428, #004e92)`;
+      }
+
+      animationRef.current = requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    return () => {
+      cancelAnimationFrame(animationRef.current);
+    };
+  }, []);
+
   const handleAccept = () => {
     setDecision('accepted');
-    // TODO: Send update to Firebase
+    // TODO: Update Firebase
   };
 
   const handleDecline = () => {
     setDecision('declined');
-    // TODO: Send update to Firebase
+    // TODO: Update Firebase
   };
 
-  useEffect(() => {
-    const style = document.createElement('style');
-    style.innerHTML = `
-      @keyframes gradientShift {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-      }
-    `;
-    document.head.appendChild(style);
-  }, []);
+  return React.createElement('div', { ref: containerRef, style: containerStyle },
+    React.createElement('h1', { style: titleStyle }, 'New Ride Request'),
+    React.createElement('div', { style: requestBox },
+      React.createElement('p', { style: infoText }, React.createElement('b', null, 'Rider:'), ' ', name),
+      React.createElement('p', { style: infoText }, React.createElement('b', null, 'Pickup:'), ' ', pickup),
+      React.createElement('p', { style: infoText }, React.createElement('b', null, 'Drop-off:'), ' ', dropoff),
+      React.createElement('p', { style: infoText }, React.createElement('b', null, 'Offer:'), ' $', offer),
 
-  return (
-    <div style={containerStyle}>
-      <h1 style={titleStyle}>New Ride Request</h1>
-      <div style={requestBox}>
-        <p style={infoText}><b>Rider:</b> {name}</p>
-        <p style={infoText}><b>Pickup:</b> {pickup}</p>
-        <p style={infoText}><b>Drop-off:</b> {dropoff}</p>
-        <p style={infoText}><b>Offer:</b> ${offer}</p>
+      decision === null &&
+      React.createElement('div', { style: buttonRow },
+        React.createElement('button', { onClick: handleDecline, style: declineButton }, 'Decline'),
+        React.createElement('button', { onClick: handleAccept, style: acceptButton }, 'Accept'),
+      ),
 
-        {decision === null && (
-          <div style={buttonRow}>
-            <button onClick={handleDecline} style={declineButton}>Decline</button>
-            <button onClick={handleAccept} style={acceptButton}>Accept</button>
-          </div>
-        )}
+      decision === 'accepted' &&
+      React.createElement('p', { style: confirmationText }, 'You have accepted the ride. Syncing with rider...'),
 
-        {decision === 'accepted' && (
-          <p style={confirmationText}>You have accepted the ride. Syncing with rider...</p>
-        )}
-        {decision === 'declined' && (
-          <p style={{ color: 'red', fontSize: '0.85rem' }}>You have declined this ride.</p>
-        )}
-      </div>
-    </div>
+      decision === 'declined' &&
+      React.createElement('p', { style: { color: 'red', fontSize: '0.85rem' } }, 'You have declined this ride.')
+    )
   );
 }
 
 // Styles
 const containerStyle = {
   padding: '1rem',
-  background: 'linear-gradient(135deg, #000428, #004e92)',
-  backgroundSize: '400% 400%',
-  animation: 'gradientShift 15s ease infinite',
   minHeight: '100vh',
   color: '#fff',
   fontFamily: 'Segoe UI, sans-serif',
+  background: 'linear-gradient(135deg, #000428, #004e92)', // fallback, animated will override
 };
 
 const titleStyle = {
@@ -106,6 +114,7 @@ const acceptButton = {
   backgroundColor: '#28a745',
   color: '#fff',
   border: 'none',
+  cursor: 'pointer',
 };
 
 const declineButton = {
@@ -116,6 +125,7 @@ const declineButton = {
   backgroundColor: '#dc3545',
   color: '#fff',
   border: 'none',
+  cursor: 'pointer',
 };
 
 const confirmationText = {
