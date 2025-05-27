@@ -139,11 +139,37 @@ export default function LoginPage() {
   if (stage === 'splash') {
     return (
       <div style={backgroundStyle}>
-        <h1 style={{ fontSize: '3rem', color: '#00f2fe', animation: 'fadeIn 2s ease' }}>NEXRIDE</h1>
+        <h1
+          style={{
+            fontSize: '3rem',
+            color: '#00f2fe',
+            animation: 'fadeIn 2s ease-in-out',
+            marginTop: '5rem',
+          }}
+        >
+          NEXRIDE
+        </h1>
+        <p
+          style={{
+            marginTop: '1rem',
+            fontSize: '1.3rem',
+            color: '#fff',
+            textAlign: 'center',
+            animation: 'fadeIn 3s ease-in-out',
+          }}
+        >
+          Your Journey Begins Here
+        </p>
         <style jsx>{`
           @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            0% {
+              opacity: 0;
+              transform: translateY(-20px);
+            }
+            100% {
+              opacity: 1;
+              transform: translateY(0);
+            }
           }
         `}</style>
       </div>
@@ -164,8 +190,12 @@ export default function LoginPage() {
             animation: spin 1s linear infinite;
           }
           @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+              transform: rotate(0deg);
+            }
+            100% {
+              transform: rotate(360deg);
+            }
           }
         `}</style>
       </div>
