@@ -20,7 +20,7 @@ export default function Dashboard() {
     document.head.appendChild(styleTag);
 
     // Handle browser back button
-    const handlePopState = (event) => {
+    const handlePopState = () => {
       router.push('/login'); // Redirect to login on back navigation
     };
 
@@ -66,12 +66,12 @@ export default function Dashboard() {
       </div>
 
       <div style={driverText}>
-        <Link href="/driver" style={driverLink}>Are you a driver?</Link>
+        <Link href="/driver" style={driverLink}>
+          Are you a driver?
+        </Link>
       </div>
 
-      <footer style={footer}>
-        NexRide © 2025
-      </footer>
+      <footer style={footer}>NexRide © 2025</footer>
     </div>
   );
 }
@@ -87,7 +87,7 @@ function DashboardCard({ title, icon, href }) {
   );
 }
 
-// Styles
+// Styles remain the same
 const container = {
   padding: '2rem',
   fontFamily: 'Segoe UI, sans-serif',
