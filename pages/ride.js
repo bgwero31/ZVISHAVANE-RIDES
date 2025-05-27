@@ -35,13 +35,11 @@ export default function Home() {
       const message = `${name}, your ride from ${pickup} to ${dropoff} has been booked for ${offer} dollars.`;
       speak(message);
 
-      // Save to localStorage
       localStorage.setItem('customer_name', name);
       localStorage.setItem('pickup_location', pickup);
       localStorage.setItem('dropoff_location', dropoff);
       localStorage.setItem('offer_price', offer);
 
-      // Redirect to confirmation page
       window.location.href = '/ride-confirmed';
     } else {
       speak("Please enter your name, pickup, dropoff, and offer to book your ride.");
@@ -58,72 +56,102 @@ export default function Home() {
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-between',
+        justifyContent: 'center', // Center vertically
+        alignItems: 'center', // Center horizontally
         padding: '2rem',
-        color: '#fff',
         fontFamily: 'Segoe UI, sans-serif',
+        color: '#fff',
+        position: 'relative',
       }}
     >
       {/* Clock */}
-      <div style={{ position: 'absolute', top: '1rem', right: '2rem', fontSize: '1rem', color: '#ddd' }}>
+      <div
+        style={{
+          position: 'absolute',
+          top: '1rem',
+          right: '2rem',
+          fontSize: '1.2rem',
+          color: '#fff',
+          textShadow: '0 0 5px rgba(0,0,0,0.7)',
+          fontWeight: '600',
+          zIndex: 10,
+        }}
+      >
         <Clock />
       </div>
 
       {/* Main Section */}
-      <div>
-        <h1 style={nexrideTitleStyle}>NEXRIDE</h1>
-        <p style={mottoStyle}>Move around faster, cheaper and smarter.</p>
-
-        <div
+      <div
+        style={{
+          width: '100%',
+          maxWidth: '400px',
+          background: 'rgba(0, 0, 0, 0.35)', // transparent black background
+          borderRadius: '12px',
+          padding: '2rem',
+          textAlign: 'center',
+          boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+          backdropFilter: 'blur(8px)',
+          WebkitBackdropFilter: 'blur(8px)',
+          border: '1px solid rgba(255, 255, 255, 0.15)',
+          color: '#fff',
+          zIndex: 5,
+        }}
+      >
+        <h1
           style={{
-            padding: '1.5rem',
-            borderRadius: '12px',
-            maxWidth: '400px',
-            background: 'rgba(255, 255, 255, 0.05)',
-            backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
+            fontSize: '3rem',
+            fontWeight: '900',
+            background: 'linear-gradient(90deg, #004e92, #000000)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            marginBottom: '0.5rem',
           }}
         >
-          {!rideRequested ? (
-            <>
-              <input
-                type="text"
-                placeholder="Your Name"
-                style={inputStyle}
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-              <input
-                type="text"
-                placeholder="Pickup Location"
-                style={inputStyle}
-                value={pickup}
-                onChange={(e) => setPickup(e.target.value)}
-              />
-              <input
-                type="text"
-                placeholder="Dropoff Location"
-                style={inputStyle}
-                value={dropoff}
-                onChange={(e) => setDropoff(e.target.value)}
-              />
-              <input
-                type="number"
-                placeholder="Offer Price"
-                style={inputStyle}
-                value={offer}
-                onChange={(e) => setOffer(e.target.value)}
-              />
-              <button onClick={handleConfirm} style={buttonStyle}>
-                Request Ride
-              </button>
-            </>
-          ) : (
-            <p style={{ fontSize: '1.1rem', color: 'lightgreen' }}>
-              Ride requested! Waiting for driver confirmation...
-            </p>
-          )}
-        </div>
+          NEXRIDE
+        </h1>
+        <p style={{ fontSize: '1.2rem', marginBottom: '2rem', color: '#c0c0c0' }}>
+          Move around faster, cheaper and smarter.
+        </p>
+
+        {!rideRequested ? (
+          <>
+            <input
+              type="text"
+              placeholder="Your Name"
+              style={inputStyle}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Pickup Location"
+              style={inputStyle}
+              value={pickup}
+              onChange={(e) => setPickup(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Dropoff Location"
+              style={inputStyle}
+              value={dropoff}
+              onChange={(e) => setDropoff(e.target.value)}
+            />
+            <input
+              type="number"
+              placeholder="Offer Price"
+              style={inputStyle}
+              value={offer}
+              onChange={(e) => setOffer(e.target.value)}
+            />
+            <button onClick={handleConfirm} style={buttonStyle}>
+              Request Ride
+            </button>
+          </>
+        ) : (
+          <p style={{ fontSize: '1.1rem', color: 'lightgreen' }}>
+            Ride requested! Waiting for driver confirmation...
+          </p>
+        )}
       </div>
 
       {/* Footer */}
@@ -134,6 +162,11 @@ export default function Home() {
           padding: '1rem',
           color: '#ccc',
           fontSize: '0.9rem',
+          position: 'absolute',
+          bottom: '1rem',
+          width: '100%',
+          maxWidth: '400px',
+          zIndex: 10,
         }}
       >
         &copy; {new Date().getFullYear()} Nexride. All rights reserved.
@@ -150,18 +183,6 @@ export default function Home() {
             transform: translateY(0);
           }
         }
-
-        @keyframes blueBlackTransition {
-          0% {
-            color: #0072ff;
-          }
-          50% {
-            color: #000000;
-          }
-          100% {
-            color: #0072ff;
-          }
-        }
       `}</style>
     </div>
   );
@@ -171,23 +192,6 @@ function Clock() {
   const now = new Date();
   return <>{now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</>;
 }
-
-const nexrideTitleStyle = {
-  fontSize: '3rem',
-  fontWeight: 'bold',
-  animation: 'blueBlackTransition 4s ease-in-out infinite',
-  textAlign: 'center',
-  fontFamily: 'Segoe UI, sans-serif',
-  marginBottom: '0.5rem',
-};
-
-const mottoStyle = {
-  fontSize: '1.3rem',
-  color: '#cce6ff',
-  textAlign: 'center',
-  marginBottom: '2rem',
-  fontStyle: 'italic',
-};
 
 const inputStyle = {
   width: '100%',
