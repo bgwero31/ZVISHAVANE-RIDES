@@ -49,22 +49,21 @@ export default function Home() {
   };
 
   return (
-    <div style={{
-      animation: 'fadeIn 2s ease-out',
-      background: 'linear-gradient(135deg, #004e92, #000428)',
-      backgroundSize: '400% 400%',
-      minHeight: '100vh',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'space-between',
-      padding: '2rem',
-      color: '#fff',
-      fontFamily: 'Segoe UI, sans-serif',
-      animationName: 'gradientFlow',
-      animationDuration: '15s',
-      animationIterationCount: 'infinite',
-      animationTimingFunction: 'ease-in-out',
-    }}>
+    <div
+      style={{
+        animation: 'fadeIn 2s ease-out',
+        backgroundImage: 'url(/nexridebackground2.jpg)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        padding: '2rem',
+        color: '#fff',
+        fontFamily: 'Segoe UI, sans-serif',
+      }}
+    >
       {/* Clock */}
       <div style={{ position: 'absolute', top: '1rem', right: '2rem', fontSize: '1rem', color: '#ddd' }}>
         <Clock />
@@ -72,21 +71,19 @@ export default function Home() {
 
       {/* Main Section */}
       <div>
-        <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>
-          NEXRIDE
-        </h1>
-        <p style={{ fontSize: '1.2rem', marginBottom: '2rem' }}>
-          Move around faster, cheaper and smarter.
-        </p>
+        <h1 style={nexrideTitleStyle}>NEXRIDE</h1>
+        <p style={mottoStyle}>Move around faster, cheaper and smarter.</p>
 
-        <div style={{
-          padding: '1.5rem',
-          borderRadius: '12px',
-          maxWidth: '400px',
-          background: 'rgba(255, 255, 255, 0.05)',
-          backdropFilter: 'blur(10px)',
-          border: '1px solid rgba(255, 255, 255, 0.1)'
-        }}>
+        <div
+          style={{
+            padding: '1.5rem',
+            borderRadius: '12px',
+            maxWidth: '400px',
+            background: 'rgba(255, 255, 255, 0.05)',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+          }}
+        >
           {!rideRequested ? (
             <>
               <input
@@ -117,10 +114,7 @@ export default function Home() {
                 value={offer}
                 onChange={(e) => setOffer(e.target.value)}
               />
-              <button
-                onClick={handleConfirm}
-                style={buttonStyle}
-              >
+              <button onClick={handleConfirm} style={buttonStyle}>
                 Request Ride
               </button>
             </>
@@ -133,26 +127,40 @@ export default function Home() {
       </div>
 
       {/* Footer */}
-      <footer style={{
-        marginTop: '3rem',
-        textAlign: 'center',
-        padding: '1rem',
-        color: '#ccc',
-        fontSize: '0.9rem'
-      }}>
+      <footer
+        style={{
+          marginTop: '3rem',
+          textAlign: 'center',
+          padding: '1rem',
+          color: '#ccc',
+          fontSize: '0.9rem',
+        }}
+      >
         &copy; {new Date().getFullYear()} Nexride. All rights reserved.
       </footer>
 
       <style jsx>{`
         @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(30px); }
-          to { opacity: 1; transform: translateY(0); }
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
 
-        @keyframes gradientFlow {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
+        @keyframes blueBlackTransition {
+          0% {
+            color: #0072ff;
+          }
+          50% {
+            color: #000000;
+          }
+          100% {
+            color: #0072ff;
+          }
         }
       `}</style>
     </div>
@@ -164,13 +172,30 @@ function Clock() {
   return <>{now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</>;
 }
 
+const nexrideTitleStyle = {
+  fontSize: '3rem',
+  fontWeight: 'bold',
+  animation: 'blueBlackTransition 4s ease-in-out infinite',
+  textAlign: 'center',
+  fontFamily: 'Segoe UI, sans-serif',
+  marginBottom: '0.5rem',
+};
+
+const mottoStyle = {
+  fontSize: '1.3rem',
+  color: '#cce6ff',
+  textAlign: 'center',
+  marginBottom: '2rem',
+  fontStyle: 'italic',
+};
+
 const inputStyle = {
   width: '100%',
   padding: '0.8rem',
   marginBottom: '1rem',
   borderRadius: '8px',
   border: 'none',
-  fontSize: '1rem'
+  fontSize: '1rem',
 };
 
 const buttonStyle = {
@@ -182,5 +207,5 @@ const buttonStyle = {
   width: '100%',
   fontWeight: 'bold',
   cursor: 'pointer',
-  marginTop: '1rem'
+  marginTop: '1rem',
 };
