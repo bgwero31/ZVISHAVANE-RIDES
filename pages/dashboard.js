@@ -1,9 +1,13 @@
 'use client';
 import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 
 export default function Dashboard() {
+  const router = useRouter();
+
   useEffect(() => {
+    // Add keyframes for motto fade animation
     const keyframes = `
       @keyframes fadeBlue {
         0% { color: #00c6ff; }
@@ -14,7 +18,18 @@ export default function Dashboard() {
     const styleTag = document.createElement('style');
     styleTag.innerHTML = keyframes;
     document.head.appendChild(styleTag);
-  }, []);
+
+    // Handle browser back button
+    const handlePopState = (event) => {
+      router.push('/login'); // Redirect to login on back navigation
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [router]);
 
   return (
     <div style={container}>
@@ -24,7 +39,7 @@ export default function Dashboard() {
         </Link>
       </div>
 
-      <h1 style={logoStyle}>NEXRIDE</h1>
+      <h1 style={nexrideStyle}>NEXRIDE</h1>
       <p style={mottoStyle}>Where Every Ride, Feels Right.</p>
 
       <div style={grid}>
@@ -76,7 +91,10 @@ function DashboardCard({ title, icon, href }) {
 const container = {
   padding: '2rem',
   fontFamily: 'Segoe UI, sans-serif',
-  background: 'linear-gradient(135deg, #000428, #004e92)',
+  backgroundImage: 'url("/nexridebackground2.jpg")',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  backgroundRepeat: 'no-repeat',
   color: '#fff',
   minHeight: '100vh',
   display: 'flex',
@@ -98,20 +116,32 @@ const backLink = {
   fontWeight: 'bold',
 };
 
-const logoStyle = {
+const nexrideStyle = {
   fontSize: '3rem',
   fontWeight: 'bold',
-  animation: 'fadeBlue 4s ease-in-out infinite',
   textAlign: 'center',
   fontFamily: 'Segoe UI, sans-serif',
+  background: 'linear-gradient(90deg, #00c6ff 0%, #000000 100%)',
+  WebkitBackgroundClip: 'text',
+  WebkitTextFillColor: 'transparent',
+  backgroundClip: 'text',
+  textFillColor: 'transparent',
+  letterSpacing: '0.1em',
+  userSelect: 'none',
 };
 
 const mottoStyle = {
   fontSize: '1.2rem',
-  color: '#b0e0ff',
-  marginBottom: '2rem',
   fontStyle: 'italic',
+  marginBottom: '2rem',
   textAlign: 'center',
+  background: 'linear-gradient(45deg, #00c6ff, #0072ff, #0055ff)',
+  WebkitBackgroundClip: 'text',
+  WebkitTextFillColor: 'transparent',
+  backgroundClip: 'text',
+  textFillColor: 'transparent',
+  animation: 'fadeBlue 4s ease-in-out infinite',
+  userSelect: 'none',
 };
 
 const grid = {
@@ -121,7 +151,7 @@ const grid = {
 };
 
 const gridItem = {
-  backgroundColor: '#fff',
+  backgroundColor: 'rgba(255, 255, 255, 0.9)',
   color: '#003366',
   padding: '2rem',
   borderRadius: '12px',
