@@ -61,11 +61,7 @@ export default function LoginPage() {
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
-      if (phoneCodeSent) {
-        verifyPhoneOTP();
-      } else {
-        handleLogin();
-      }
+      phoneCodeSent ? verifyPhoneOTP() : handleLogin();
     }
   };
 
@@ -83,30 +79,33 @@ export default function LoginPage() {
     backgroundRepeat: 'no-repeat',
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     color: '#fff',
     position: 'relative',
-    zIndex: 1,
     padding: '2rem',
-    transition: 'background-image 1s ease-in-out',
   };
 
-  const loginBoxStyle = {
-    width: '100%',
+  const floatingStyle = {
     maxWidth: '400px',
-    padding: '2rem',
-    borderRadius: '8px',
-    backgroundColor: 'rgba(255, 255, 255, 0.95)',
-    boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
+    width: '100%',
+    marginTop: '6rem',
+    color: '#fff',
+    backdropFilter: 'blur(5px)',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   };
 
   const inputStyle = {
     width: '100%',
     padding: '0.75rem',
     marginBottom: '1rem',
-    borderRadius: '4px',
-    border: '1px solid #ccc',
+    borderRadius: '6px',
+    border: 'none',
+    backgroundColor: 'rgba(255,255,255,0.1)',
+    color: '#fff',
+    outline: 'none',
   };
 
   const buttonStyle = {
@@ -115,20 +114,16 @@ export default function LoginPage() {
     backgroundColor: '#00f2fe',
     color: '#000',
     border: 'none',
-    borderRadius: '4px',
+    borderRadius: '6px',
     cursor: 'pointer',
     fontWeight: 'bold',
+    marginTop: '0.5rem',
   };
 
   const socialButtonStyle = {
-    width: '100%',
-    padding: '0.75rem',
+    ...buttonStyle,
     backgroundColor: '#db4437',
     color: '#fff',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    marginTop: '0.5rem',
   };
 
   const footerStyle = {
@@ -179,20 +174,20 @@ export default function LoginPage() {
 
   return (
     <div style={backgroundStyle}>
-      <h1 style={{ fontSize: '3rem', marginBottom: '1rem' }}>
+      <h1 style={{ fontSize: '3rem', marginTop: '2rem' }}>
         Welcome to <span style={{ color: '#00f2fe' }}>NEXRIDE</span>
       </h1>
-      <p style={{ fontSize: '1.2rem', marginBottom: '2rem', textAlign: 'center' }}>
+      <p style={{ fontSize: '1.2rem', textAlign: 'center', maxWidth: '400px', marginBottom: '2rem' }}>
         Fast, Smart, and Affordable Transport
       </p>
 
-      <div style={loginBoxStyle}>
+      <div style={floatingStyle}>
         {error && <p style={{ color: 'red' }}>{error}</p>}
         {!phoneCodeSent ? (
           <>
             <input
               type="text"
-              placeholder="Enter Email or Phone Number"
+              placeholder="Email or Phone"
               value={emailOrPhone}
               onChange={(e) => setEmailOrPhone(e.target.value)}
               onKeyDown={handleKeyPress}
@@ -201,7 +196,7 @@ export default function LoginPage() {
             />
             <input
               type="password"
-              placeholder="Enter Password"
+              placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               onKeyDown={handleKeyPress}
@@ -213,18 +208,18 @@ export default function LoginPage() {
             </button>
             <button
               onClick={handleSignup}
-              style={{ ...buttonStyle, marginTop: '1rem', backgroundColor: '#007acc' }}
+              style={{ ...buttonStyle, backgroundColor: '#007acc' }}
               disabled={loading}
             >
               {loading ? 'Signing up...' : 'Sign Up'}
             </button>
             <button
-              onClick={() => alert('Reset password feature coming soon!')}
-              style={{ ...buttonStyle, marginTop: '1rem', backgroundColor: '#2c5364', color: '#fff' }}
+              onClick={() => alert('Reset password coming soon!')}
+              style={{ ...buttonStyle, backgroundColor: '#2c5364', color: '#fff' }}
             >
               Forgot Password?
             </button>
-            <div style={{ marginTop: '2rem', textAlign: 'center' }}>
+            <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
               <div style={{ marginBottom: '0.5rem' }}>Or login with:</div>
               <button onClick={handleGoogleLogin} style={socialButtonStyle}>
                 Continue with Google
@@ -239,7 +234,7 @@ export default function LoginPage() {
                 onClick={sendPhoneOTP}
                 style={{ ...socialButtonStyle, backgroundColor: '#25D366' }}
               >
-                Continue with Phone (SMS)
+                Continue with Phone
               </button>
             </div>
           </>
@@ -247,7 +242,7 @@ export default function LoginPage() {
           <>
             <input
               type="text"
-              placeholder="Enter OTP code"
+              placeholder="Enter OTP"
               value={phoneOTP}
               onChange={(e) => setPhoneOTP(e.target.value)}
               onKeyDown={handleKeyPress}
