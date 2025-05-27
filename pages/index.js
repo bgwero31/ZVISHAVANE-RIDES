@@ -83,6 +83,10 @@ export default function LoginPage() {
     color: '#fff',
     position: 'relative',
     zIndex: 1,
+  };
+
+  const mainStyle = {
+    ...backgroundStyle,
     padding: '2rem',
   };
 
@@ -160,7 +164,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div style={backgroundStyle}>
+    <div style={mainStyle}>
       <h1 style={{ fontSize: '3rem', marginBottom: '1rem' }}>
         Welcome to <span style={{ color: '#00f2fe' }}>NEXRIDE</span>
       </h1>
