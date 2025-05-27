@@ -76,7 +76,6 @@ export default function LoginPage() {
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
-    background: '#000',
     color: '#fff',
     position: 'relative',
     zIndex: 1,
@@ -96,11 +95,9 @@ export default function LoginPage() {
   const loginBoxStyle = {
     width: '100%',
     maxWidth: '400px',
-    background: 'rgba(255, 255, 255, 0.05)',
     padding: '2rem',
     borderRadius: '8px',
     boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
-    backdropFilter: 'blur(10px)',
   };
 
   const inputStyle = {
@@ -133,82 +130,9 @@ export default function LoginPage() {
     marginTop: '0.5rem',
   };
 
-  const background = (
-    <>
-      <div className="nextRideBackground">
-        <div className="movingLines" />
-        <div className="grid" />
-      </div>
-      <style jsx>{`
-        .nextRideBackground {
-          position: fixed;
-          width: 100%;
-          height: 100%;
-          background: radial-gradient(circle at center, #101820 0%, #0c0c0c 100%);
-          overflow: hidden;
-          z-index: -1;
-        }
-        .movingLines {
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          background-image: linear-gradient(
-            to top,
-            transparent 70%,
-            rgba(0, 242, 254, 0.4) 85%,
-            transparent 100%
-          );
-          background-size: 100% 40px;
-          animation: moveLines 1.5s linear infinite;
-          opacity: 0.6;
-        }
-        .grid {
-          position: absolute;
-          width: 200%;
-          height: 200%;
-          top: -50%;
-          left: -50%;
-          background: repeating-linear-gradient(
-              to right,
-              rgba(0, 242, 254, 0.1) 0,
-              rgba(0, 242, 254, 0.1) 1px,
-              transparent 1px,
-              transparent 40px
-            ),
-            repeating-linear-gradient(
-              to bottom,
-              rgba(0, 242, 254, 0.1) 0,
-              rgba(0, 242, 254, 0.1) 1px,
-              transparent 1px,
-              transparent 40px
-            );
-          animation: rotateGrid 100s linear infinite;
-          opacity: 0.2;
-        }
-        @keyframes moveLines {
-          0% {
-            background-position: 0 0;
-          }
-          100% {
-            background-position: 0 100%;
-          }
-        }
-        @keyframes rotateGrid {
-          0% {
-            transform: rotate(0deg);
-          }
-          100% {
-            transform: rotate(360deg);
-          }
-        }
-      `}</style>
-    </>
-  );
-
   if (stage === 'splash') {
     return (
       <div style={splashStyle}>
-        {background}
         <h1 style={{ fontSize: '3rem', color: '#00f2fe' }}>NEXRIDE</h1>
       </div>
     );
@@ -217,7 +141,6 @@ export default function LoginPage() {
   if (stage === 'spinner') {
     return (
       <div style={splashStyle}>
-        {background}
         <div className="spinner" />
         <style jsx>{`
           .spinner {
@@ -243,7 +166,6 @@ export default function LoginPage() {
 
   return (
     <div style={mainStyle}>
-      {background}
       <h1 style={{ fontSize: '3rem', marginBottom: '1rem' }}>
         Welcome to <span style={{ color: '#00f2fe' }}>NEXRIDE</span>
       </h1>
