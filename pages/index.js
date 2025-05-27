@@ -69,9 +69,13 @@ export default function LoginPage() {
     }
   };
 
-  const splashStyle = {
+  const backgroundStyle = {
     width: '100%',
     height: '100vh',
+    backgroundImage: 'url("/nexridebackground.png")',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -82,14 +86,8 @@ export default function LoginPage() {
   };
 
   const mainStyle = {
+    ...backgroundStyle,
     padding: '2rem',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    minHeight: '100vh',
-    justifyContent: 'center',
-    position: 'relative',
-    zIndex: 1,
   };
 
   const loginBoxStyle = {
@@ -97,6 +95,7 @@ export default function LoginPage() {
     maxWidth: '400px',
     padding: '2rem',
     borderRadius: '8px',
+    backgroundColor: 'rgba(255, 255, 255, 0.95)',
     boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
   };
 
@@ -132,7 +131,7 @@ export default function LoginPage() {
 
   if (stage === 'splash') {
     return (
-      <div style={splashStyle}>
+      <div style={backgroundStyle}>
         <h1 style={{ fontSize: '3rem', color: '#00f2fe' }}>NEXRIDE</h1>
       </div>
     );
@@ -140,7 +139,7 @@ export default function LoginPage() {
 
   if (stage === 'spinner') {
     return (
-      <div style={splashStyle}>
+      <div style={backgroundStyle}>
         <div className="spinner" />
         <style jsx>{`
           .spinner {
@@ -248,4 +247,4 @@ export default function LoginPage() {
       </div>
     </div>
   );
-    }
+}
