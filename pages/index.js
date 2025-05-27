@@ -82,9 +82,9 @@ export default function LoginPage() {
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
     display: 'flex',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'column',
     color: '#fff',
     position: 'relative',
     zIndex: 1,
@@ -129,6 +129,16 @@ export default function LoginPage() {
     borderRadius: '4px',
     cursor: 'pointer',
     marginTop: '0.5rem',
+  };
+
+  const footerStyle = {
+    position: 'absolute',
+    bottom: '1rem',
+    textAlign: 'center',
+    fontSize: '0.9rem',
+    color: '#ffffff',
+    width: '100%',
+    opacity: 0.8,
   };
 
   if (stage === 'splash') {
@@ -249,6 +259,10 @@ export default function LoginPage() {
           </>
         )}
       </div>
+
+      <footer style={footerStyle}>
+        &copy; {new Date().getFullYear()} NEXRIDE. All rights reserved.
+      </footer>
     </div>
   );
 }
