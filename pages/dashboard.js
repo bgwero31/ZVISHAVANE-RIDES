@@ -18,8 +18,14 @@ export default function Dashboard() {
 
   return (
     <div style={container}>
+      <div style={topBar}>
+        <Link href="/login" style={backLink}>
+          ← Back
+        </Link>
+      </div>
+
       <h1 style={logoStyle}>NEXRIDE</h1>
-      <p style={motoStyle}>Driven by Trust, Powered by Comfort.</p>
+      <p style={mottoStyle}>Where Every Ride, Feels Right.</p>
 
       <div style={grid}>
         <DashboardCard
@@ -78,6 +84,20 @@ const container = {
   alignItems: 'center',
 };
 
+const topBar = {
+  width: '100%',
+  display: 'flex',
+  justifyContent: 'flex-start',
+  marginBottom: '1rem',
+};
+
+const backLink = {
+  color: '#00c6ff',
+  fontSize: '1rem',
+  textDecoration: 'none',
+  fontWeight: 'bold',
+};
+
 const logoStyle = {
   fontSize: '3rem',
   fontWeight: 'bold',
@@ -86,7 +106,7 @@ const logoStyle = {
   fontFamily: 'Segoe UI, sans-serif',
 };
 
-const motoStyle = {
+const mottoStyle = {
   fontSize: '1.2rem',
   color: '#b0e0ff',
   marginBottom: '2rem',
