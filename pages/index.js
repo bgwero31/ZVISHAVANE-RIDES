@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
@@ -6,11 +6,10 @@ export default function LoginPage() {
   const [stage, setStage] = useState('splash');
   const [emailOrPhone, setEmailOrPhone] = useState('');
   const [password, setPassword] = useState('');
-  const [phoneCodeSent, setPhoneCodeSent] = useState(false);
-  const [phoneOTP, setPhoneOTP] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
+  const containerRef = useRef(null);
 
   useEffect(() => {
     const splashTimer = setTimeout(() => {
@@ -21,6 +20,23 @@ export default function LoginPage() {
       return () => clearTimeout(spinnerTimer);
     }, 5000);
     return () => clearTimeout(splashTimer);
+  }, []);
+
+  // Animated gradient background effect
+  useEffect(() => {
+    let gradientPosition = 0;
+    let animationFrameId;
+
+    function animate() {
+      gradientPosition = (gradientPosition + 1) % 360;
+      if (containerRef.current) {
+        containerRef.current.style.background = `linear-gradient(${gradientPosition}deg, #000428, #004e92)`;
+      }
+      animationFrameId = requestAnimationFrame(animate);
+    }
+    animate();
+
+    return () => cancelAnimationFrame(animationFrameId);
   }, []);
 
   const handleLogin = async () => {
@@ -36,104 +52,6 @@ export default function LoginPage() {
     }, 1000);
   };
 
-  const handleSignup = async () => {
-    setError('');
-    if (!emailOrPhone.trim() || !password) {
-      setError('Please enter email/phone and password');
-      return;
-    }
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      router.push('/dashboard');
-    }, 1000);
-  };
-
-  const handleGoogleLogin = () => alert('Google login coming soon!');
-  const handleFacebookLogin = () => alert('Facebook login coming soon!');
-  const sendPhoneOTP = () => alert('Phone login coming soon!');
-  const verifyPhoneOTP = () => alert('OTP verification coming soon!');
-
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      if (phoneCodeSent) {
-        verifyPhoneOTP();
-      } else {
-        handleLogin();
-      }
-    }
-  };
-
-  const render3DBackground = () => (
-    <div className="nextRideBackground">
-      <style jsx>{`
-        .nextRideBackground {
-          position: fixed;
-          width: 100%;
-          height: 100%;
-          background: radial-gradient(circle at center, #101820 0%, #0c0c0c 100%);
-          overflow: hidden;
-          z-index: -1;
-        }
-        .movingLines {
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          background-image: linear-gradient(
-            to top,
-            transparent 70%,
-            rgba(0, 242, 254, 0.4) 85%,
-            transparent 100%
-          );
-          background-size: 100% 40px;
-          animation: moveLines 1.5s linear infinite;
-          opacity: 0.6;
-        }
-        .grid {
-          position: absolute;
-          width: 200%;
-          height: 200%;
-          top: -50%;
-          left: -50%;
-          background: repeating-linear-gradient(
-              to right,
-              rgba(0, 242, 254, 0.1) 0,
-              rgba(0, 242, 254, 0.1) 1px,
-              transparent 1px,
-              transparent 40px
-            ),
-            repeating-linear-gradient(
-              to bottom,
-              rgba(0, 242, 254, 0.1) 0,
-              rgba(0, 242, 254, 0.1) 1px,
-              transparent 1px,
-              transparent 40px
-            );
-          animation: rotateGrid 100s linear infinite;
-          opacity: 0.2;
-        }
-        @keyframes moveLines {
-          0% {
-            background-position: 0 0;
-          }
-          100% {
-            background-position: 0 100%;
-          }
-        }
-        @keyframes rotateGrid {
-          0% {
-            transform: rotate(0deg);
-          }
-          100% {
-            transform: rotate(360deg);
-          }
-        }
-      `}</style>
-      <div className="movingLines" />
-      <div className="grid" />
-    </div>
-  );
-
   const splashStyle = {
     width: '100%',
     height: '100vh',
@@ -141,7 +59,6 @@ export default function LoginPage() {
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
-    background: '#000',
     color: '#fff',
   };
 
@@ -154,6 +71,7 @@ export default function LoginPage() {
     justifyContent: 'center',
     position: 'relative',
     zIndex: 1,
+    color: '#fff',
   };
 
   const loginBoxStyle = {
@@ -185,151 +103,33 @@ export default function LoginPage() {
     fontWeight: 'bold',
   };
 
-  const socialButtonStyle = {
-    width: '100%',
-    padding: '0.75rem',
-    backgroundColor: '#db4437',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    marginTop: '0.5rem',
-  };
-
-  if (stage === 'splash') {
-    return (
-      <div style={splashStyle}>
-        {render3DBackground()}
-        <h1 style={{ fontSize: '3rem', color: '#00f2fe' }}>NEXRIDE</h1>
-      </div>
-    );
-  }
-
-  if (stage === 'spinner') {
-    return (
-      <div style={{ ...splashStyle, justifyContent: 'center', alignItems: 'center' }}>
-        {render3DBackground()}
-        <div className="spinner" />
-        <style jsx>{`
-          .spinner {
-            border: 6px solid #f3f3f3;
-            border-top: 6px solid #00f2fe;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            animation: spin 1s linear infinite;
-          }
-          @keyframes spin {
-            0% { transform: rotate(0deg);}
-            100% { transform: rotate(360deg);}
-          }
-        `}</style>
-      </div>
-    );
-  }
-
   return (
-    <div style={mainStyle}>
-      {render3DBackground()}
-      <h1 style={{ fontSize: '3rem', marginBottom: '1rem' }}>
-        Welcome to <span style={{ color: '#00f2fe' }}>NEXRIDE</span>
-      </h1>
-      <p style={{ fontSize: '1.2rem', marginBottom: '2rem', textAlign: 'center' }}>
-        Fast, Smart, and Affordable Transport
-      </p>
-
-      <div style={loginBoxStyle}>
-        {!phoneCodeSent ? (
-          <>
+    <div ref={containerRef}>
+      {stage === 'splash' && <div style={splashStyle}><h1>Welcome to NextRide</h1></div>}
+      {stage === 'login' && (
+        <main style={mainStyle}>
+          <div style={loginBoxStyle}>
             <input
+              style={inputStyle}
               type="text"
-              placeholder="Enter Email or Phone Number (+countrycode)"
+              placeholder="Email or Phone"
               value={emailOrPhone}
               onChange={(e) => setEmailOrPhone(e.target.value)}
-              onKeyDown={handleKeyPress}
-              style={inputStyle}
-              autoComplete="username"
             />
             <input
+              style={inputStyle}
               type="password"
-              placeholder="Enter Password"
+              placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              onKeyDown={handleKeyPress}
-              style={inputStyle}
-              autoComplete="current-password"
             />
-            <button onClick={handleLogin} style={buttonStyle} disabled={loading}>
+            <button style={buttonStyle} onClick={handleLogin} disabled={loading}>
               {loading ? 'Logging in...' : 'Login'}
             </button>
-            <button
-              onClick={handleSignup}
-              style={{ ...buttonStyle, marginTop: '1rem', backgroundColor: '#007acc' }}
-              disabled={loading}
-            >
-              {loading ? 'Signing up...' : 'Sign Up'}
-            </button>
-            <button
-              onClick={() => alert('Reset password feature coming soon!')}
-              style={{ ...buttonStyle, marginTop: '1rem', backgroundColor: '#2c5364', color: '#fff' }}
-            >
-              Forgot Password?
-            </button>
-
-            <div style={{ marginTop: '2rem', textAlign: 'center' }}>
-              <div style={{ marginBottom: '0.5rem' }}>Or login with:</div>
-              <button onClick={handleGoogleLogin} style={socialButtonStyle} disabled={loading}>
-                Continue with Google
-              </button>
-              <button
-                onClick={handleFacebookLogin}
-                style={{ ...socialButtonStyle, backgroundColor: '#3b5998' }}
-                disabled={loading}
-              >
-                Continue with Facebook
-              </button>
-              <button
-                onClick={sendPhoneOTP}
-                style={{ ...socialButtonStyle, backgroundColor: '#25D366' }}
-                disabled={loading}
-              >
-                Continue with Phone (SMS)
-              </button>
-            </div>
-          </>
-        ) : (
-          <>
-            <input
-              type="text"
-              placeholder="Enter OTP code"
-              value={phoneOTP}
-              onChange={(e) => setPhoneOTP(e.target.value)}
-              onKeyDown={handleKeyPress}
-              style={inputStyle}
-            />
-            <button onClick={verifyPhoneOTP} style={buttonStyle} disabled={loading}>
-              {loading ? 'Verifying...' : 'Verify OTP'}
-            </button>
-            <button
-              onClick={() => {
-                setPhoneCodeSent(false);
-                setPhoneOTP('');
-                setError('');
-              }}
-              style={{ ...buttonStyle, marginTop: '1rem', backgroundColor: '#ccc', color: '#000' }}
-              disabled={loading}
-            >
-              Back
-            </button>
-          </>
-        )}
-        {error && <p style={{ color: 'red', marginTop: '1rem', textAlign: 'center' }}>{error}</p>}
-        <Link href="/driver" passHref>
-          <button style={{ ...buttonStyle, marginTop: '1rem', backgroundColor: '#6a11cb', color: '#fff' }}>
-            Driver Login
-          </button>
-        </Link>
-      </div>
+            {error && <p style={{ color: 'red', marginTop: '1rem' }}>{error}</p>}
+          </div>
+        </main>
+      )}
     </div>
   );
 }
