@@ -1,10 +1,25 @@
 'use client';
+import { useEffect } from 'react';
 import Link from 'next/link';
 
 export default function Dashboard() {
+  useEffect(() => {
+    const keyframes = `
+      @keyframes fadeBlue {
+        0% { color: #00c6ff; }
+        50% { color: #0072ff; }
+        100% { color: #00c6ff; }
+      }
+    `;
+    const styleTag = document.createElement('style');
+    styleTag.innerHTML = keyframes;
+    document.head.appendChild(styleTag);
+  }, []);
+
   return (
     <div style={container}>
-      <h1 style={gradientTitle}>NEXRIDE</h1>
+      <h1 style={logoStyle}>NEXRIDE</h1>
+      <p style={motoStyle}>Driven by Trust, Powered by Comfort.</p>
 
       <div style={grid}>
         <DashboardCard
@@ -63,13 +78,20 @@ const container = {
   alignItems: 'center',
 };
 
-const gradientTitle = {
-  fontSize: '2.5rem',
-  marginBottom: '2rem',
-  background: 'linear-gradient(90deg, #00c6ff, #0072ff)',
-  WebkitBackgroundClip: 'text',
-  WebkitTextFillColor: 'transparent',
+const logoStyle = {
+  fontSize: '3rem',
   fontWeight: 'bold',
+  animation: 'fadeBlue 4s ease-in-out infinite',
+  textAlign: 'center',
+  fontFamily: 'Segoe UI, sans-serif',
+};
+
+const motoStyle = {
+  fontSize: '1.2rem',
+  color: '#b0e0ff',
+  marginBottom: '2rem',
+  fontStyle: 'italic',
+  textAlign: 'center',
 };
 
 const grid = {
