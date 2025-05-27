@@ -69,10 +69,76 @@ export default function LoginPage() {
     }
   };
 
-  const render3DBackground = () => (
-    <div className="nextRideBackground">
-      <div className="movingLines" />
-      <div className="grid" />
+  const splashStyle = {
+    width: '100%',
+    height: '100vh',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+    background: '#000',
+    color: '#fff',
+    position: 'relative',
+    zIndex: 1,
+  };
+
+  const mainStyle = {
+    padding: '2rem',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    minHeight: '100vh',
+    justifyContent: 'center',
+    position: 'relative',
+    zIndex: 1,
+  };
+
+  const loginBoxStyle = {
+    width: '100%',
+    maxWidth: '400px',
+    background: 'rgba(255, 255, 255, 0.05)',
+    padding: '2rem',
+    borderRadius: '8px',
+    boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
+    backdropFilter: 'blur(10px)',
+  };
+
+  const inputStyle = {
+    width: '100%',
+    padding: '0.75rem',
+    marginBottom: '1rem',
+    borderRadius: '4px',
+    border: '1px solid #ccc',
+  };
+
+  const buttonStyle = {
+    width: '100%',
+    padding: '0.75rem',
+    backgroundColor: '#00f2fe',
+    color: '#000',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    fontWeight: 'bold',
+  };
+
+  const socialButtonStyle = {
+    width: '100%',
+    padding: '0.75rem',
+    backgroundColor: '#db4437',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    marginTop: '0.5rem',
+  };
+
+  const background = (
+    <>
+      <div className="nextRideBackground">
+        <div className="movingLines" />
+        <div className="grid" />
+      </div>
       <style jsx>{`
         .nextRideBackground {
           position: fixed;
@@ -136,75 +202,13 @@ export default function LoginPage() {
           }
         }
       `}</style>
-    </div>
+    </>
   );
-
-  const splashStyle = {
-    width: '100%',
-    height: '100vh',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'column',
-    background: '#000',
-    color: '#fff',
-  };
-
-  const mainStyle = {
-    padding: '2rem',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    minHeight: '100vh',
-    justifyContent: 'center',
-    position: 'relative',
-    zIndex: 1,
-  };
-
-  const loginBoxStyle = {
-    width: '100%',
-    maxWidth: '400px',
-    background: 'rgba(255, 255, 255, 0.05)',
-    padding: '2rem',
-    borderRadius: '8px',
-    boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
-    backdropFilter: 'blur(10px)',
-  };
-
-  const inputStyle = {
-    width: '100%',
-    padding: '0.75rem',
-    marginBottom: '1rem',
-    borderRadius: '4px',
-    border: '1px solid #ccc',
-  };
-
-  const buttonStyle = {
-    width: '100%',
-    padding: '0.75rem',
-    backgroundColor: '#00f2fe',
-    color: '#000',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    fontWeight: 'bold',
-  };
-
-  const socialButtonStyle = {
-    width: '100%',
-    padding: '0.75rem',
-    backgroundColor: '#db4437',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    marginTop: '0.5rem',
-  };
 
   if (stage === 'splash') {
     return (
       <div style={splashStyle}>
-        {render3DBackground()}
+        {background}
         <h1 style={{ fontSize: '3rem', color: '#00f2fe' }}>NEXRIDE</h1>
       </div>
     );
@@ -213,7 +217,7 @@ export default function LoginPage() {
   if (stage === 'spinner') {
     return (
       <div style={splashStyle}>
-        {render3DBackground()}
+        {background}
         <div className="spinner" />
         <style jsx>{`
           .spinner {
@@ -239,7 +243,7 @@ export default function LoginPage() {
 
   return (
     <div style={mainStyle}>
-      {render3DBackground()}
+      {background}
       <h1 style={{ fontSize: '3rem', marginBottom: '1rem' }}>
         Welcome to <span style={{ color: '#00f2fe' }}>NEXRIDE</span>
       </h1>
@@ -315,21 +319,11 @@ export default function LoginPage() {
               style={inputStyle}
             />
             <button onClick={verifyPhoneOTP} style={buttonStyle} disabled={loading}>
-              {loading ? 'Verifying...' : 'Verify OTP'}
-            </button>
-            <button
-              onClick={() => {
-                setPhoneCodeSent(false);
-                setPhoneOTP('');
-                setError('');
-              }}
-              style={{ ...buttonStyle, marginTop: '1rem', backgroundColor: '#ccc', color: '#000' }}
-            >
-              Back to Login
+              {loading ? 'Verifying...' : 'Verify'}
             </button>
           </>
         )}
       </div>
     </div>
   );
-}
+    }
