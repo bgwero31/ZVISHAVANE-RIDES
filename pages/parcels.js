@@ -14,22 +14,22 @@ export default function Parcels() {
       <div style={grid}>
         <div style={card}>
           <img
-            src="https://cdn-icons-png.flaticon.com/512/7341/7341187.png"
+            src="/parcel-send.svg" // Add this to /public folder
             alt="Send Parcel"
             style={icon}
           />
-          <h3 style={heading}>Send a Parcel</h3>
+          <h3>Send a Parcel</h3>
           <button style={button} onClick={() => handleNavigate('/send-parcel')}>
             Proceed
           </button>
         </div>
         <div style={card}>
           <img
-            src="https://cdn-icons-png.flaticon.com/512/9291/9291644.png"
+            src="/parcel-receive.svg" // Add this to /public folder
             alt="Receive Parcel"
             style={icon}
           />
-          <h3 style={heading}>Receive a Parcel</h3>
+          <h3>Receive a Parcel</h3>
           <button style={button} onClick={() => handleNavigate('/receive-parcel')}>
             Proceed
           </button>
@@ -50,47 +50,39 @@ const container = {
 const title = {
   textAlign: 'center',
   fontSize: '2.5rem',
-  fontWeight: 'bold',
   marginBottom: '2rem',
 };
 
 const grid = {
   display: 'grid',
-  gridTemplateColumns: '1fr 1fr',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
   gap: '2rem',
-  justifyContent: 'center',
-  maxWidth: '800px',
-  margin: '0 auto',
 };
 
 const card = {
-  backgroundColor: '#ffffff22',
+  backgroundColor: '#ffffff33',
   padding: '2rem',
-  borderRadius: '20px',
+  borderRadius: '15px',
   textAlign: 'center',
-  boxShadow: '0 8px 20px rgba(0, 0, 0, 0.3)',
-  transition: 'transform 0.3s',
+  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+  transition: 'transform 0.3s ease',
 };
 
 const icon = {
   width: '80px',
-  height: '80px',
-  marginBottom: '1rem',
-};
-
-const heading = {
-  fontSize: '1.3rem',
   marginBottom: '1rem',
 };
 
 const button = {
-  padding: '0.8rem 1.5rem',
-  borderRadius: '10px',
+  marginTop: '1rem',
+  padding: '0.6rem 1.4rem',
+  borderRadius: '8px',
   border: 'none',
   backgroundColor: '#fff',
   color: '#4e54c8',
   fontWeight: 'bold',
-  fontSize: '1rem',
   cursor: 'pointer',
-  transition: '0.3s',
+  transition: 'all 0.3s',
 };
+
+// Add hover animation with Tailwind or custom CSS (optional)
