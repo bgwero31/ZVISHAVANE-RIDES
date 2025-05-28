@@ -8,7 +8,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     const handlePopState = () => {
-      router.push('/login');
+      router.replace('/login');
     };
 
     window.addEventListener('popstate', handlePopState);
