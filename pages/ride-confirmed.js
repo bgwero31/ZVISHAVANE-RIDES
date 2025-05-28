@@ -99,7 +99,7 @@ const containerStyle = {
   padding: '2rem',
   color: '#fff',
   minHeight: '40vh',
-  backgroundImage: 'url("/nexridebackground7.png")',
+  backgroundImage: 'url("/nexridebackground6.png")',
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   fontFamily: 'Segoe UI, sans-serif',
