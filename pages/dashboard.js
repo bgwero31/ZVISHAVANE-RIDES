@@ -7,7 +7,6 @@ export default function Dashboard() {
   const router = useRouter();
 
   useEffect(() => {
-    // Add keyframes for motto fade animation
     const keyframes = `
       @keyframes fadeBlue {
         0% { color: #00c6ff; }
@@ -19,9 +18,8 @@ export default function Dashboard() {
     styleTag.innerHTML = keyframes;
     document.head.appendChild(styleTag);
 
-    // Handle browser back button
     const handlePopState = () => {
-      router.push('/login'); // Redirect to login on back navigation
+      router.push('/login');
     };
 
     window.addEventListener('popstate', handlePopState);
@@ -33,12 +31,6 @@ export default function Dashboard() {
 
   return (
     <div style={container}>
-      <div style={topBar}>
-        <Link href="/login" style={backLink}>
-          ← Back
-        </Link>
-      </div>
-
       <h1 style={nexrideStyle}>NEXRIDE</h1>
       <p style={mottoStyle}>Where Every Ride, Feels Right.</p>
 
@@ -87,7 +79,8 @@ function DashboardCard({ title, icon, href }) {
   );
 }
 
-// Styles remain the same
+// ========================== STYLES ==========================
+
 const container = {
   padding: '2rem',
   fontFamily: 'Segoe UI, sans-serif',
@@ -102,22 +95,8 @@ const container = {
   alignItems: 'center',
 };
 
-const topBar = {
-  width: '100%',
-  display: 'flex',
-  justifyContent: 'flex-start',
-  marginBottom: '1rem',
-};
-
-const backLink = {
-  color: '#00c6ff',
-  fontSize: '1rem',
-  textDecoration: 'none',
-  fontWeight: 'bold',
-};
-
 const nexrideStyle = {
-  fontSize: '3rem',
+  fontSize: '3.5rem',
   fontWeight: 'bold',
   textAlign: 'center',
   fontFamily: 'Segoe UI, sans-serif',
@@ -126,8 +105,16 @@ const nexrideStyle = {
   WebkitTextFillColor: 'transparent',
   backgroundClip: 'text',
   textFillColor: 'transparent',
-  letterSpacing: '0.1em',
+  letterSpacing: '0.15em',
   userSelect: 'none',
+  animation: 'fadeBlue 4s ease-in-out infinite',
+  textShadow: `
+    1px 1px 2px #00000088,
+    2px 2px 4px #00000055,
+    0 0 6px #00c6ff,
+    0 0 12px #0072ff,
+    0 0 20px rgba(0, 198, 255, 0.5)
+  `,
 };
 
 const mottoStyle = {
