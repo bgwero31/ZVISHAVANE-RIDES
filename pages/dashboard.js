@@ -1,32 +1,35 @@
 'use client';
 import { useEffect } from 'react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 export default function Dashboard() {
   const router = useRouter();
 
   useEffect(() => {
-    const keyframes = `
-      @keyframes fadeBlue {
-        0% { color: #00c6ff; }
-        50% { color: #0072ff; }
-        100% { color: #00c6ff; }
-      }
-    `;
-    const styleTag = document.createElement('style');
-    styleTag.innerHTML = keyframes;
-    document.head.appendChild(styleTag);
+    if (typeof window !== 'undefined') {
+      const keyframes = `
+        @keyframes fadeBlue {
+          0% { color: #00c6ff; }
+          50% { color: #0072ff; }
+          100% { color: #00c6ff; }
+        }
+      `;
+      const styleTag = document.createElement('style');
+      styleTag.innerHTML = keyframes;
+      document.head.appendChild(styleTag);
 
-    const handlePopState = () => {
-      router.push('/login');
-    };
+      const handlePopState = () => {
+        router.push('/login');
+      };
 
-    window.addEventListener('popstate', handlePopState);
+      window.addEventListener('popstate', handlePopState);
 
-    return () => {
-      window.removeEventListener('popstate', handlePopState);
-    };
+      return () => {
+        window.removeEventListener('popstate', handlePopState);
+        document.head.removeChild(styleTag);
+      };
+    }
   }, [router]);
 
   return (
@@ -58,8 +61,8 @@ export default function Dashboard() {
       </div>
 
       <div style={driverText}>
-        <Link href="/driver" style={driverLink}>
-          Are you a driver?
+        <Link href="/driver" legacyBehavior>
+          <a style={driverLink}>Are you a driver?</a>
         </Link>
       </div>
 
@@ -70,11 +73,13 @@ export default function Dashboard() {
 
 function DashboardCard({ title, icon, href }) {
   return (
-    <Link href={href} style={{ textDecoration: 'none' }}>
-      <div style={gridItem}>
-        <img src={icon} alt={title} style={iconStyle} />
-        <p style={{ margin: 0, fontWeight: 'bold' }}>{title}</p>
-      </div>
+    <Link href={href} legacyBehavior>
+      <a style={{ textDecoration: 'none' }}>
+        <div style={gridItem}>
+          <img src={icon} alt={title} style={iconStyle} />
+          <p style={{ margin: 0, fontWeight: 'bold' }}>{title}</p>
+        </div>
+      </a>
     </Link>
   );
 }
@@ -99,7 +104,6 @@ const nexrideStyle = {
   fontSize: '3.5rem',
   fontWeight: 'bold',
   textAlign: 'center',
-  fontFamily: 'Segoe UI, sans-serif',
   background: 'linear-gradient(90deg, #00c6ff 0%, #000000 100%)',
   WebkitBackgroundClip: 'text',
   WebkitTextFillColor: 'transparent',
