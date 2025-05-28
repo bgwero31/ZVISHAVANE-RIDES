@@ -199,7 +199,7 @@ export default function LoginPage() {
 
   return (
     <div style={backgroundStyle}>
-      <div style={signupCornerStyle} onClick={() => route.push('/signup')}>
+      <div style={signupCornerStyle} onClick={() => router.push('/signup')}>
         Sign Up
       </div>
       <h1 style={{ fontSize: '2.6rem', marginTop: '2rem', color: '#fff' }}>
