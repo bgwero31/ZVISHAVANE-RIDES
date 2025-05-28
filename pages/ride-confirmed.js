@@ -33,17 +33,27 @@ export default function RideConfirmed() {
         0%, 100% { opacity: 1; }
         50% { opacity: 0; }
       }
-
       @keyframes pulse {
         0%, 100% { transform: scale(1); }
         50% { transform: scale(1.05); }
       }
-
-      @keyframes fadeBlueBlack {
-        0% { color: #004e92; }
+      @keyframes blueBlackFade {
+        0% { color: #00c6ff; }
         50% { color: #000000; }
-        100% { color: #004e92; }
+        100% { color: #00c6ff; }
       }
+      .fade-letter {
+        display: inline-block;
+        animation: blueBlackFade 2.5s ease-in-out infinite;
+      }
+      .fade-letter:nth-child(1) { animation-delay: 0s; }
+      .fade-letter:nth-child(2) { animation-delay: 0.2s; }
+      .fade-letter:nth-child(3) { animation-delay: 0.4s; }
+      .fade-letter:nth-child(4) { animation-delay: 0.6s; }
+      .fade-letter:nth-child(5) { animation-delay: 0.8s; }
+      .fade-letter:nth-child(6) { animation-delay: 1s; }
+      .fade-letter:nth-child(7) { animation-delay: 1.2s; }
+      .fade-letter:nth-child(8) { animation-delay: 1.4s; }
     `;
     document.head.appendChild(style);
     return () => document.head.removeChild(style);
@@ -51,11 +61,15 @@ export default function RideConfirmed() {
 
   return (
     <div style={containerStyle}>
-      <h1 style={headerStyle}>NEXRIDE</h1>
+      <h1 style={logoStyle}>
+        {'NEXRIDE'.split('').map((char, index) => (
+          <span key={index} className="fade-letter">{char}</span>
+        ))}
+      </h1>
 
       <h2 style={titleStyle}>Ride Confirmed!</h2>
-      <p style={textStyle}><strong>{name}</strong>, your ride from <strong style={highlight}> {pickup} </strong> to <strong style={highlight}> {dropoff} </strong> has been booked.</p>
-      <p style={textStyle}>Offer: <strong style={priceStyle}>${offer}</strong></p>
+      <p><strong>{name}</strong>, your ride from <strong>{pickup}</strong> to <strong>{dropoff}</strong> has been booked.</p>
+      <p>Offer: <strong>${offer}</strong></p>
 
       <div style={{ marginTop: '2rem' }}>
         {!isConfirmed ? (
@@ -67,10 +81,10 @@ export default function RideConfirmed() {
 
       {isConfirmed && driver && (
         <div style={driverInfo}>
-          <p style={driverText}>Driver: <strong>{driver.name}</strong></p>
-          <p style={driverText}>Car Type: <strong>{driver.carType}</strong></p>
-          <p style={driverText}>Plate Number: <strong>{driver.plateNumber}</strong></p>
-          <p style={driverText}>Estimated Arrival: <strong>{driver.estimatedArrival}</strong></p>
+          <p>Driver: <strong>{driver.name}</strong></p>
+          <p>Car Type: <strong>{driver.carType}</strong></p>
+          <p>Plate Number: <strong>{driver.plateNumber}</strong></p>
+          <p>Estimated Arrival: <strong>{driver.estimatedArrival}</strong></p>
         </div>
       )}
 
@@ -79,45 +93,32 @@ export default function RideConfirmed() {
   );
 }
 
-// Styles
+// ========== Styles ==========
+
 const containerStyle = {
   padding: '2rem',
+  color: '#fff',
   minHeight: '40vh',
-  backgroundImage: 'url("/nexridebackground8.png")',
+  backgroundImage: 'url("/nexridebackground7.png")',
   backgroundSize: 'cover',
   backgroundPosition: 'center',
-  backgroundRepeat: 'no-repeat',
   fontFamily: 'Segoe UI, sans-serif',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
 };
 
-const headerStyle = {
-  fontSize: '3rem',
+const logoStyle = {
+  fontSize: '3.2rem',
   fontWeight: 'bold',
-  animation: 'fadeBlueBlack 3s ease-in-out infinite',
-  textAlign: 'center',
   marginBottom: '1.5rem',
+  letterSpacing: '0.1em',
 };
 
 const titleStyle = {
   fontSize: '2rem',
   marginBottom: '1rem',
   fontWeight: '600',
-  textAlign: 'center',
-  color: '#001f3f',
-};
-
-const textStyle = {
-  fontSize: '1.1rem',
-  color: '#111',
-  marginBottom: '0.5rem',
-};
-
-const highlight = {
-  color: '#004e92',
-};
-
-const priceStyle = {
-  color: '#800080', // purple
 };
 
 const waitingCard = {
@@ -145,21 +146,17 @@ const confirmedCard = {
 const driverInfo = {
   marginTop: '2rem',
   padding: '1rem',
-  background: 'rgba(255, 255, 255, 0.8)',
+  background: '#1e1e1e',
   borderRadius: '10px',
-  border: '1px solid #bbb',
-};
-
-const driverText = {
-  color: '#222',
-  fontSize: '1rem',
+  border: '1px solid #444',
   lineHeight: '1.6',
+  width: '100%',
+  maxWidth: '400px',
 };
 
 const footerStyle = {
-  marginTop: '3rem',
-  textAlign: 'center',
-  color: '#222',
+  marginTop: '4rem',
   fontSize: '0.9rem',
-  fontWeight: 'bold',
+  color: '#aaa',
+  textAlign: 'center',
 };
