@@ -11,7 +11,7 @@ export default function RideConfirmed() {
   const name = searchParams.get('name');
 
   const [isConfirmed, setIsConfirmed] = useState(false);
-  const [driver, setDriver] = useState(null); // Placeholder for Firebase
+  const [driver, setDriver] = useState(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -23,7 +23,6 @@ export default function RideConfirmed() {
         estimatedArrival: '4 minutes',
       });
     }, 5000);
-
     return () => clearTimeout(timer);
   }, []);
 
@@ -41,9 +40,9 @@ export default function RideConfirmed() {
       }
 
       @keyframes fadeBlueBlack {
-        0% { color: #00c6ff; }
+        0% { color: #004e92; }
         50% { color: #000000; }
-        100% { color: #00c6ff; }
+        100% { color: #004e92; }
       }
     `;
     document.head.appendChild(style);
@@ -55,8 +54,8 @@ export default function RideConfirmed() {
       <h1 style={headerStyle}>NEXRIDE</h1>
 
       <h2 style={titleStyle}>Ride Confirmed!</h2>
-      <p><strong>{name}</strong>, your ride from <strong>{pickup}</strong> to <strong>{dropoff}</strong> has been booked.</p>
-      <p>Offer: <strong>${offer}</strong></p>
+      <p style={textStyle}><strong>{name}</strong>, your ride from <strong style={highlight}> {pickup} </strong> to <strong style={highlight}> {dropoff} </strong> has been booked.</p>
+      <p style={textStyle}>Offer: <strong style={priceStyle}>${offer}</strong></p>
 
       <div style={{ marginTop: '2rem' }}>
         {!isConfirmed ? (
@@ -68,16 +67,14 @@ export default function RideConfirmed() {
 
       {isConfirmed && driver && (
         <div style={driverInfo}>
-          <p>Driver: <strong>{driver.name}</strong></p>
-          <p>Car Type: <strong>{driver.carType}</strong></p>
-          <p>Plate Number: <strong>{driver.plateNumber}</strong></p>
-          <p>Estimated Arrival: <strong>{driver.estimatedArrival}</strong></p>
+          <p style={driverText}>Driver: <strong>{driver.name}</strong></p>
+          <p style={driverText}>Car Type: <strong>{driver.carType}</strong></p>
+          <p style={driverText}>Plate Number: <strong>{driver.plateNumber}</strong></p>
+          <p style={driverText}>Estimated Arrival: <strong>{driver.estimatedArrival}</strong></p>
         </div>
       )}
 
-      <footer style={footerStyle}>
-        NexRide © 2025
-      </footer>
+      <footer style={footerStyle}>NexRide © 2025</footer>
     </div>
   );
 }
@@ -85,8 +82,7 @@ export default function RideConfirmed() {
 // Styles
 const containerStyle = {
   padding: '2rem',
-  color: '#fff',
-  minHeight: '50vh',
+  minHeight: '40vh',
   backgroundImage: 'url("/nexridebackground8.png")',
   backgroundSize: 'cover',
   backgroundPosition: 'center',
@@ -107,6 +103,21 @@ const titleStyle = {
   marginBottom: '1rem',
   fontWeight: '600',
   textAlign: 'center',
+  color: '#001f3f',
+};
+
+const textStyle = {
+  fontSize: '1.1rem',
+  color: '#111',
+  marginBottom: '0.5rem',
+};
+
+const highlight = {
+  color: '#004e92',
+};
+
+const priceStyle = {
+  color: '#800080', // purple
 };
 
 const waitingCard = {
@@ -134,15 +145,21 @@ const confirmedCard = {
 const driverInfo = {
   marginTop: '2rem',
   padding: '1rem',
-  background: 'rgba(0, 0, 0, 0.6)',
+  background: 'rgba(255, 255, 255, 0.8)',
   borderRadius: '10px',
-  border: '1px solid #444',
+  border: '1px solid #bbb',
+};
+
+const driverText = {
+  color: '#222',
+  fontSize: '1rem',
   lineHeight: '1.6',
 };
 
 const footerStyle = {
   marginTop: '3rem',
   textAlign: 'center',
-  color: '#ccc',
+  color: '#222',
   fontSize: '0.9rem',
+  fontWeight: 'bold',
 };
