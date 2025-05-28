@@ -82,7 +82,7 @@ const container = {
 };
 
 const logoStyle = {
-  fontSize: '3.5rem',
+  fontSize: '2.5rem',
   fontWeight: 'bold',
   textAlign: 'center',
   letterSpacing: '0.15em',
