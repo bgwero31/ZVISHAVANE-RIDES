@@ -12,72 +12,41 @@ export default function Parcels() {
     <div style={container}>
       <h1 style={title}>Send or Receive Parcels</h1>
       <div style={grid}>
-        <div
-          style={{ ...card, ...cardHover }}
-          onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.05)')}
-          onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
-        >
+        <div style={{ ...card, ...hoverable }}>
           <img
-            src="https://img.icons8.com/ios-filled/100/parcel.png"
+            src="https://cdn-icons-png.flaticon.com/512/2933/2933927.png"
             alt="Send Parcel"
             style={icon}
           />
-          <h3 style={heading}>Send a Parcel</h3>
-          <button
-            style={button}
-            onMouseEnter={(e) => {
-              e.target.style.backgroundColor = '#4e54c8';
-              e.target.style.color = '#fff';
-              e.target.style.boxShadow = '0 0 15px #8f94fb';
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.backgroundColor = '#fff';
-              e.target.style.color = '#4e54c8';
-              e.target.style.boxShadow = 'none';
-            }}
-            onClick={() => handleNavigate('/send-parcel')}
-          >
-            Proceed
-          </button>
+          <h3 style={cardTitle}>Send a Parcel</h3>
+          <button style={{ ...button, ...hoverButton }} onClick={() => handleNavigate('/send-parcel')}>Proceed</button>
         </div>
-
-        <div
-          style={{ ...card, ...cardHover }}
-          onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.05)')}
-          onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
-        >
+        <div style={{ ...card, ...hoverable }}>
           <img
             src="https://img.icons8.com/ios-filled/100/open-box.png"
             alt="Receive Parcel"
             style={icon}
           />
-          <h3 style={heading}>Receive a Parcel</h3>
-          <button
-            style={button}
-            onMouseEnter={(e) => {
-              e.target.style.backgroundColor = '#4e54c8';
-              e.target.style.color = '#fff';
-              e.target.style.boxShadow = '0 0 15px #8f94fb';
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.backgroundColor = '#fff';
-              e.target.style.color = '#4e54c8';
-              e.target.style.boxShadow = 'none';
-            }}
-            onClick={() => handleNavigate('/receive-parcel')}
-          >
-            Proceed
-          </button>
+          <h3 style={cardTitle}>Receive a Parcel</h3>
+          <button style={{ ...button, ...hoverButton }} onClick={() => handleNavigate('/receive-parcel')}>Proceed</button>
+        </div>
+        <div style={{ ...card, ...hoverable }}>
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/2204/2204447.png"
+            alt="Track Parcel"
+            style={icon}
+          />
+          <h3 style={cardTitle}>Track a Parcel</h3>
+          <button style={{ ...button, ...hoverButton }} onClick={() => handleNavigate('/track-parcel')}>Proceed</button>
         </div>
       </div>
     </div>
   );
 }
 
-// Styles
 const container = {
   padding: '2rem',
-  background: 'linear-gradient(to right, #0f2027, #203a43, #2c5364)',
+  background: 'linear-gradient(to right, #4e54c8, #8f94fb)',
   minHeight: '100vh',
   color: '#fff',
   fontFamily: 'Segoe UI, sans-serif',
@@ -85,54 +54,61 @@ const container = {
 
 const title = {
   textAlign: 'center',
-  fontSize: '2.5rem',
-  fontWeight: '600',
+  fontSize: '1.6rem',
   marginBottom: '2rem',
 };
 
 const grid = {
   display: 'grid',
-  gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-  gap: '2rem',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+  gap: '1.5rem',
   justifyContent: 'center',
 };
 
 const card = {
-  background: 'rgba(255, 255, 255, 0.05)',
-  padding: '2rem',
-  borderRadius: '20px',
+  backgroundColor: '#ffffff22',
+  padding: '1rem',
+  borderRadius: '12px',
   textAlign: 'center',
-  boxShadow: '0 8px 20px rgba(0, 0, 0, 0.4)',
+  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
   backdropFilter: 'blur(10px)',
   transition: 'transform 0.3s ease',
 };
 
-const cardHover = {
-  cursor: 'pointer',
+const hoverable = {
+  transition: 'transform 0.3s ease',
+  ':hover': {
+    transform: 'scale(1.05)',
+  },
 };
 
 const icon = {
-  width: '80px',
-  height: '80px',
-  marginBottom: '1rem',
-  filter: 'drop-shadow(0 0 8px #8f94fb)',
+  width: '50px',
+  marginBottom: '0.8rem',
+  filter: 'drop-shadow(0 0 5px #fff)',
 };
 
-const heading = {
-  fontSize: '1.5rem',
-  fontWeight: '500',
-  marginBottom: '1rem',
+const cardTitle = {
+  fontSize: '1rem',
+  margin: '0.5rem 0',
 };
 
 const button = {
-  marginTop: '1rem',
-  padding: '0.8rem 1.5rem',
-  borderRadius: '10px',
+  marginTop: '0.8rem',
+  padding: '0.4rem 0.8rem',
+  borderRadius: '6px',
   border: 'none',
   backgroundColor: '#fff',
   color: '#4e54c8',
   fontWeight: 'bold',
-  fontSize: '1rem',
   cursor: 'pointer',
-  transition: 'all 0.3s ease',
+  fontSize: '0.9rem',
+  transition: 'transform 0.2s ease, background 0.3s',
+};
+
+const hoverButton = {
+  ':hover': {
+    backgroundColor: '#f0f0f0',
+    transform: 'scale(1.05)',
+  },
 };
