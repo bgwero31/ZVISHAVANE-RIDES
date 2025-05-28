@@ -6,11 +6,23 @@ export default function Dashboard() {
   useEffect(() => {
     const styleTag = document.createElement('style');
     styleTag.innerHTML = `
-      @keyframes fadeBlueBlack {
+      @keyframes blueBlackFade {
         0% { color: #00c6ff; }
         50% { color: #000000; }
         100% { color: #00c6ff; }
       }
+      .fade-letter {
+        display: inline-block;
+        animation: blueBlackFade 2.5s ease-in-out infinite;
+      }
+      .fade-letter:nth-child(1) { animation-delay: 0s; }
+      .fade-letter:nth-child(2) { animation-delay: 0.2s; }
+      .fade-letter:nth-child(3) { animation-delay: 0.4s; }
+      .fade-letter:nth-child(4) { animation-delay: 0.6s; }
+      .fade-letter:nth-child(5) { animation-delay: 0.8s; }
+      .fade-letter:nth-child(6) { animation-delay: 1s; }
+      .fade-letter:nth-child(7) { animation-delay: 1.2s; }
+      .fade-letter:nth-child(8) { animation-delay: 1.4s; }
     `;
     document.head.appendChild(styleTag);
     return () => document.head.removeChild(styleTag);
@@ -18,11 +30,12 @@ export default function Dashboard() {
 
   return (
     <div style={container}>
-      <div style={topBar}>
-        <Link href="/login" style={backLink}>← Back</Link>
-      </div>
+      <h1 style={logoStyle}>
+        {"NEXRIDE".split("").map((char, index) => (
+          <span key={index} className="fade-letter">{char}</span>
+        ))}
+      </h1>
 
-      <h1 style={logoStyle}>NEXRIDE</h1>
       <p style={mottoStyle}>Where Every Ride, Feels Right.</p>
 
       <div style={grid}>
@@ -68,25 +81,10 @@ const container = {
   alignItems: 'center',
 };
 
-const topBar = {
-  width: '100%',
-  display: 'flex',
-  justifyContent: 'flex-start',
-  marginBottom: '1rem',
-};
-
-const backLink = {
-  color: '#00c6ff',
-  fontSize: '1rem',
-  textDecoration: 'none',
-  fontWeight: 'bold',
-};
-
 const logoStyle = {
   fontSize: '3.5rem',
   fontWeight: 'bold',
   textAlign: 'center',
-  animation: 'fadeBlueBlack 3s ease-in-out infinite',
   letterSpacing: '0.15em',
   fontFamily: 'Segoe UI, sans-serif',
 };
