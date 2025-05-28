@@ -11,7 +11,7 @@ export default function RideConfirmed() {
   const name = searchParams.get('name');
 
   const [isConfirmed, setIsConfirmed] = useState(false);
-  const [driver, setDriver] = useState(null);
+  const [driver, setDriver] = useState(null); // Placeholder for Firebase
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -23,6 +23,7 @@ export default function RideConfirmed() {
         estimatedArrival: '4 minutes',
       });
     }, 5000);
+
     return () => clearTimeout(timer);
   }, []);
 
@@ -33,27 +34,17 @@ export default function RideConfirmed() {
         0%, 100% { opacity: 1; }
         50% { opacity: 0; }
       }
+
       @keyframes pulse {
         0%, 100% { transform: scale(1); }
         50% { transform: scale(1.05); }
       }
-      @keyframes blueBlackFade {
+
+      @keyframes fadeBlueBlack {
         0% { color: #00c6ff; }
         50% { color: #000000; }
         100% { color: #00c6ff; }
       }
-      .fade-letter {
-        display: inline-block;
-        animation: blueBlackFade 2.5s ease-in-out infinite;
-      }
-      .fade-letter:nth-child(1) { animation-delay: 0s; }
-      .fade-letter:nth-child(2) { animation-delay: 0.2s; }
-      .fade-letter:nth-child(3) { animation-delay: 0.4s; }
-      .fade-letter:nth-child(4) { animation-delay: 0.6s; }
-      .fade-letter:nth-child(5) { animation-delay: 0.8s; }
-      .fade-letter:nth-child(6) { animation-delay: 1s; }
-      .fade-letter:nth-child(7) { animation-delay: 1.2s; }
-      .fade-letter:nth-child(8) { animation-delay: 1.4s; }
     `;
     document.head.appendChild(style);
     return () => document.head.removeChild(style);
@@ -61,11 +52,7 @@ export default function RideConfirmed() {
 
   return (
     <div style={containerStyle}>
-      <h1 style={logoStyle}>
-        {'NEXRIDE'.split('').map((char, index) => (
-          <span key={index} className="fade-letter">{char}</span>
-        ))}
-      </h1>
+      <h1 style={headerStyle}>NEXRIDE</h1>
 
       <h2 style={titleStyle}>Ride Confirmed!</h2>
       <p><strong>{name}</strong>, your ride from <strong>{pickup}</strong> to <strong>{dropoff}</strong> has been booked.</p>
@@ -88,35 +75,38 @@ export default function RideConfirmed() {
         </div>
       )}
 
-      <footer style={footerStyle}>NexRide © 2025</footer>
+      <footer style={footerStyle}>
+        NexRide © 2025
+      </footer>
     </div>
   );
 }
 
-// ========== Styles ==========
-
+// Styles
 const containerStyle = {
   padding: '2rem',
   color: '#fff',
   minHeight: '100vh',
-  background: 'linear-gradient(135deg, #004e92, #000428)',
+  backgroundImage: 'url("/nexridebackground8.png")',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  backgroundRepeat: 'no-repeat',
   fontFamily: 'Segoe UI, sans-serif',
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
 };
 
-const logoStyle = {
-  fontSize: '3.0rem',
+const headerStyle = {
+  fontSize: '3rem',
   fontWeight: 'bold',
+  animation: 'fadeBlueBlack 3s ease-in-out infinite',
+  textAlign: 'center',
   marginBottom: '1.5rem',
-  letterSpacing: '0.1em',
 };
 
 const titleStyle = {
   fontSize: '2rem',
   marginBottom: '1rem',
   fontWeight: '600',
+  textAlign: 'center',
 };
 
 const waitingCard = {
@@ -144,17 +134,15 @@ const confirmedCard = {
 const driverInfo = {
   marginTop: '2rem',
   padding: '1rem',
-  background: '#1e1e1e',
+  background: 'rgba(0, 0, 0, 0.6)',
   borderRadius: '10px',
   border: '1px solid #444',
   lineHeight: '1.6',
-  width: '100%',
-  maxWidth: '400px',
 };
 
 const footerStyle = {
-  marginTop: '4rem',
-  fontSize: '0.9rem',
-  color: '#aaa',
+  marginTop: '3rem',
   textAlign: 'center',
+  color: '#ccc',
+  fontSize: '0.9rem',
 };
