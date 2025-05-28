@@ -86,7 +86,7 @@ export default function RideConfirmed() {
 const containerStyle = {
   padding: '2rem',
   color: '#fff',
-  minHeight: '80vh',
+  minHeight: '50vh',
   backgroundImage: 'url("/nexridebackground8.png")',
   backgroundSize: 'cover',
   backgroundPosition: 'center',
