@@ -7,67 +7,86 @@ export default function Dashboard() {
   const router = useRouter();
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const keyframes = `
-        @keyframes fadeBlue {
-          0% { color: #00c6ff; }
-          50% { color: #0072ff; }
-          100% { color: #00c6ff; }
-        }
-      `;
-      const styleTag = document.createElement('style');
-      styleTag.innerHTML = keyframes;
-      document.head.appendChild(styleTag);
+    const handlePopState = () => {
+      router.push('/login');
+    };
 
-      const handlePopState = () => {
-        router.push('/login');
-      };
-
-      window.addEventListener('popstate', handlePopState);
-
-      return () => {
-        window.removeEventListener('popstate', handlePopState);
-        document.head.removeChild(styleTag);
-      };
-    }
+    window.addEventListener('popstate', handlePopState);
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
   }, [router]);
 
   return (
-    <div style={container}>
-      <h1 style={nexrideStyle}>NEXRIDE</h1>
-      <p style={mottoStyle}>Where Every Ride, Feels Right.</p>
+    <>
+      <div style={container}>
+        <h1 className="nexride-heading">NEXRIDE</h1>
+        <p style={mottoStyle}>Where Every Ride, Feels Right.</p>
 
-      <div style={grid}>
-        <DashboardCard
-          title="Cars"
-          icon="https://img.icons8.com/ios-filled/100/car--v1.png"
-          href="/ride"
-        />
-        <DashboardCard
-          title="Buses"
-          icon="https://img.icons8.com/ios-filled/100/bus.png"
-          href="/buses"
-        />
-        <DashboardCard
-          title="Parcels"
-          icon="https://img.icons8.com/ios-filled/100/shopping-bag.png"
-          href="/parcels"
-        />
-        <DashboardCard
-          title="Settings"
-          icon="https://img.icons8.com/ios-filled/100/settings.png"
-          href="/settings"
-        />
+        <div style={grid}>
+          <DashboardCard
+            title="Cars"
+            icon="https://img.icons8.com/ios-filled/100/car--v1.png"
+            href="/ride"
+          />
+          <DashboardCard
+            title="Buses"
+            icon="https://img.icons8.com/ios-filled/100/bus.png"
+            href="/buses"
+          />
+          <DashboardCard
+            title="Parcels"
+            icon="https://img.icons8.com/ios-filled/100/shopping-bag.png"
+            href="/parcels"
+          />
+          <DashboardCard
+            title="Settings"
+            icon="https://img.icons8.com/ios-filled/100/settings.png"
+            href="/settings"
+          />
+        </div>
+
+        <div style={driverText}>
+          <Link href="/driver" legacyBehavior>
+            <a style={driverLink}>Are you a driver?</a>
+          </Link>
+        </div>
+
+        <footer style={footer}>NexRide © 2025</footer>
       </div>
 
-      <div style={driverText}>
-        <Link href="/driver" legacyBehavior>
-          <a style={driverLink}>Are you a driver?</a>
-        </Link>
-      </div>
+      {/* Global animation styles */}
+      <style jsx global>{`
+        @keyframes fadeBlueBlack {
+          0% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
+        }
 
-      <footer style={footer}>NexRide © 2025</footer>
-    </div>
+        .nexride-heading {
+          font-size: 3.5rem;
+          font-weight: bold;
+          text-align: center;
+          background: linear-gradient(270deg, #00c6ff, #000000);
+          background-size: 400% 400%;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: fadeBlueBlack 6s ease infinite;
+          letter-spacing: 0.15em;
+          user-select: none;
+          text-shadow:
+            1px 1px 2px #00000088,
+            0 0 6px #00c6ff,
+            0 0 12px #0050aa;
+        }
+      `}</style>
+    </>
   );
 }
 
@@ -100,38 +119,12 @@ const container = {
   alignItems: 'center',
 };
 
-const nexrideStyle = {
-  fontSize: '3.5rem',
-  fontWeight: 'bold',
-  textAlign: 'center',
-  background: 'linear-gradient(90deg, #00c6ff 0%, #000000 100%)',
-  WebkitBackgroundClip: 'text',
-  WebkitTextFillColor: 'transparent',
-  backgroundClip: 'text',
-  textFillColor: 'transparent',
-  letterSpacing: '0.15em',
-  userSelect: 'none',
-  animation: 'fadeBlue 4s ease-in-out infinite',
-  textShadow: `
-    1px 1px 2px #00000088,
-    2px 2px 4px #00000055,
-    0 0 6px #00c6ff,
-    0 0 12px #0072ff,
-    0 0 20px rgba(0, 198, 255, 0.5)
-  `,
-};
-
 const mottoStyle = {
   fontSize: '1.2rem',
   fontStyle: 'italic',
   marginBottom: '2rem',
   textAlign: 'center',
-  background: 'linear-gradient(45deg, #00c6ff, #0072ff, #0055ff)',
-  WebkitBackgroundClip: 'text',
-  WebkitTextFillColor: 'transparent',
-  backgroundClip: 'text',
-  textFillColor: 'transparent',
-  animation: 'fadeBlue 4s ease-in-out infinite',
+  color: '#d0f0ff',
   userSelect: 'none',
 };
 
